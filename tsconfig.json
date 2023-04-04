@@ -20,6 +20,10 @@
     "paths": {
       "@store/*": ["store/*"],
       "@slice/*": ["slice/*"],
+      "@pages/*": ["pages/*"],
+      "@hooks/*": ["hooks/*"],
+      "@routes/*": ["routes/*"],
+      "@components/*": ["components/*"],
     }
   },
   "include": ["./src"],
