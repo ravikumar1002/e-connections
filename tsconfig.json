@@ -18,6 +18,8 @@
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
+      "@store/*": ["store/*"],
+      "@slice/*": ["slice/*"],
     }
   },
   "include": ["./src"],
