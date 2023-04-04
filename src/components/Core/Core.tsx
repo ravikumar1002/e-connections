@@ -1,12 +1,21 @@
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const Core = () => {
-  
-    return (
-      <div>
+  const navigate = useNavigate();
+  const location = useLocation();
 
-      </div>
-    );
-  };
-  
-  export default Core;
-  
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/home");
+    }
+  }, []);
+
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
+};
+
+export default Core;
