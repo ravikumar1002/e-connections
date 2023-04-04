@@ -7,7 +7,7 @@ const Core = () => {
 
   useEffect(() => {
     if (location.pathname === "/") {
-      navigate("/home");
+      navigate("home");
     }
   }, []);
 

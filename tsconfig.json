@@ -22,6 +22,7 @@
       "@slice/*": ["slice/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
+      "@routes/*": ["routes/*"],
       "@components/*": ["components/*"],
     }
   },
