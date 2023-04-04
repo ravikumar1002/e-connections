@@ -20,10 +20,13 @@
     "paths": {
       "@store/*": ["store/*"],
       "@slice/*": ["slice/*"],
+      "@thunk/*": ["thunk/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
       "@routes/*": ["routes/*"],
       "@components/*": ["components/*"],
+      "@config/*": ["config/*"],
+
     }
   },
   "include": ["./src"],
