@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 interface IValuesType {
   persistUser?: true | undefined;
@@ -13,6 +13,22 @@ export const signupThunk = createAsyncThunk(
     const { email, password } = values
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
+      return response.user;
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(error, errorCode, errorMessage);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const loginThunk = createAsyncThunk(
+  "/auth/login", async (values: IValuesType, { rejectWithValue }) => {
+    const auth = getAuth();
+    const { email, password } = values
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
       return response.user;
     } catch (error: any) {
       const errorCode = error.code;

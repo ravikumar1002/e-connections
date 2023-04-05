@@ -8,7 +8,7 @@ export interface IProtectedRoutes {
 const ProtectedRoutes = (props: IProtectedRoutes) => {
   const [login, setlogin] = useState(false);
 
-  if (!login) return <Navigate replace to={"/signup"} />;
+  if (!login) return <Navigate replace to={"/login"} />;
 
   return <>{props.children}</>;
 };

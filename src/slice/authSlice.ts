@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signupThunk } from "@thunk/authThunk";
+import { loginThunk, signupThunk } from "@thunk/authThunk";
 interface IAuthUser {
   providerId: string,
   uid: string,
@@ -46,6 +46,17 @@ const authSlice = createSlice({
       .addCase(signupThunk.rejected, (state, action) => {
         state.authStatus = "rejected";
       })
+      .addCase(loginThunk.pending, (state, action) => {
+        state.authStatus = "pending";
+    })
+    .addCase(loginThunk.fulfilled, (state, action) => {
+        state.authStatus = "fulfilled";
+        state.authUser = <IAuthUser>action.payload?.providerData[0];
+        localStorage.setItem("authUser", JSON.stringify(state?.authUser));
+    })
+    .addCase(loginThunk.rejected, (state, action) => {
+        state.authStatus = "rejected";
+    })
 
   },
 
