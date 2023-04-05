@@ -1,10 +1,12 @@
 import Core from "@components/Core/Core";
 import Layout from "@components/Layout/Layout";
+import firebaseConfigs from "@config/firebase";
 import Home from "@pages/Home/Home";
 import Login from "@pages/Login/Login";
 import Profile from "@pages/Profile/Profile";
 import Signup from "@pages/Signup/Signup";
 import ProtectedRoutes from "@routes/ProtectedRoutes";
+import { initializeApp } from "firebase/app";
 
 import {
   createBrowserRouter,
@@ -13,6 +15,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./App.css";
+
+const app = initializeApp(firebaseConfigs);
+
 
 function App() {
   const router = createBrowserRouter(
