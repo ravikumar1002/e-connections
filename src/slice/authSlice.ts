@@ -34,14 +34,14 @@ const authSlice = createSlice({
   reducers: {
     logoutUserProfile: (state) => {
       state.authUser = {
-          providerId: "",
-          uid: "",
-          displayName: null,
-          email: "",
-          phoneNumber: null,
-          photoURL: null,
+        providerId: "",
+        uid: "",
+        displayName: null,
+        email: "",
+        phoneNumber: null,
+        photoURL: null,
       }
-  }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -59,15 +59,15 @@ const authSlice = createSlice({
       })
       .addCase(loginThunk.pending, (state, action) => {
         state.authStatus = "pending";
-    })
-    .addCase(loginThunk.fulfilled, (state, action) => {
+      })
+      .addCase(loginThunk.fulfilled, (state, action) => {
         state.authStatus = "fulfilled";
         state.authUser = <IAuthUser>action.payload?.providerData[0];
         localStorage.setItem("authUser", JSON.stringify(state?.authUser));
-    })
-    .addCase(loginThunk.rejected, (state, action) => {
+      })
+      .addCase(loginThunk.rejected, (state, action) => {
         state.authStatus = "rejected";
-    })
+      })
   },
 
 });

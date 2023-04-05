@@ -1,12 +1,20 @@
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { signupThunk } from "@thunk/authThunk";
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Box, Grid, TextField, Typography } from "@mui/material";
 import { Controller } from "react-hook-form";
 import useSignup from "@hooks/useSignup";
 import { useAppSelector } from "@hooks/useAppSelector";
+import styled from "@emotion/styled";
+
+export const LinkItem = styled(Link)`
+  text-decoration: none;
+  color: #3683dc;
+  &:hover {
+    text-decoration: underline;
+    color: #5ea1b6;
+  }
+`;
 
 const Signup = () => {
   const location = useLocation();
@@ -98,6 +106,20 @@ const Signup = () => {
                 Sign Up
               </LoadingButton>
             </Grid>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            <Typography sx={{ fontSize: "0.9rem" }}>
+              Already have an account?
+            </Typography>
+
+            <LinkItem to="/signup" replace={true}>
+              Click to Login
+            </LinkItem>
           </Box>
         </Box>
       </Box>

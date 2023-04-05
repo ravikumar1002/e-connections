@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IAppState {}
+interface IAppState { }
 
 const initialState: IAppState = {};
 
