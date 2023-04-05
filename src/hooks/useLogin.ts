@@ -6,6 +6,7 @@ import { IUserLogin } from '@dto/user_data';
 import { loginThunk } from '@thunk/authThunk';
 import { useAppDispatch } from './useAppDispatch';
 import { getAuth } from 'firebase/auth';
+import { useAppSelector } from './useAppSelector';
 
 const useLogin = () => {
     const auth = getAuth();
@@ -13,6 +14,8 @@ const useLogin = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const location = useLocation();
+    const { authUser } = useAppSelector((state) => state.user);
+
     const loginUserSchema = object({
         email: string().min(1, "Email is required").email("Email is invalid"),
         password: string()
@@ -35,7 +38,7 @@ const useLogin = () => {
     ) => {
         e?.preventDefault();
         await dispatch(loginThunk(data));
-        if (auth) {
+        if (authUser?.uid) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
         }
     };

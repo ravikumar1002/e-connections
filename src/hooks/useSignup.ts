@@ -6,6 +6,7 @@ import { IUserRegistration } from '@dto/user_data';
 import { signupThunk } from '@thunk/authThunk';
 import { useAppDispatch } from './useAppDispatch';
 import { getAuth } from 'firebase/auth';
+import { useAppSelector } from './useAppSelector';
 
 const useSignup = () => {
 
@@ -13,6 +14,9 @@ const useSignup = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const location = useLocation();
+    const { authUser } = useAppSelector((state) => state.user);
+
+
     const signupUserSchema = object({
         email: string().min(1, "Email is required").email("Email is invalid"),
         password: string()
@@ -34,9 +38,11 @@ const useSignup = () => {
         e: React.BaseSyntheticEvent | undefined
     ) => {
         e?.preventDefault();
-       await dispatch(signupThunk(data));
-        if (auth) {
+        await dispatch(signupThunk(data));
+        if (authUser?.uid) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
+        }else{
+            alert("user alrady created")
         }
     };
 
