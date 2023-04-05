@@ -117,7 +117,7 @@ const Signup = () => {
               Already have an account?
             </Typography>
 
-            <LinkItem to="/signup" replace>
+            <LinkItem to="/login" replace>
               Click to Login
             </LinkItem>
           </Box>

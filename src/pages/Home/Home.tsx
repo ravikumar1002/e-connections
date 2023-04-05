@@ -6,24 +6,25 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const auth = getAuth();
 
-    return (
-        <div>
-          <h2>Home</h2>
-          <button
-              color="inherit"
-              onClick={() => {
-                signOut(auth)
-                  .then(() => {
-                    localStorage.clear();
-                    dispatch(logoutUserProfile());
-                  })
-                  .catch((error) => {});
-              }}
-            >
-              Logout
-            </button>
-        </div>
-    );
+  return (
+    <div>
+      <h2>Home</h2>
+      <button
+        color="inherit"
+        onClick={() => {
+          signOut(auth)
+            .then(() => {
+              localStorage.clear();
+              dispatch(logoutUserProfile());
+            })
+            .catch((error) => {});
+        }}
+      >
+        Logout
+      </button>
+      
+    </div>
+  );
 };
 
 export default Home;
