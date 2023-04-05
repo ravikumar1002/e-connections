@@ -25,7 +25,7 @@ const ProtectedRoutes = (props: IProtectedRoutes) => {
     return () => AuthCheck();
   }, [auth]);
 
-  if (loading) return <Navigate replace to={"/login"} />;
+  // if (auth) return <Navigate replace to={"/login"} />;
 
   return <>{props.children}</>;
 };

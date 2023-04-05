@@ -9,17 +9,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mui/material": "^5.11.15",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^3.0.0",
+    "@mui/lab": "^5.0.0-alpha.125",
+    "@mui/material": "^5.11.16",
     "@mui/styled-engine-sc": "^5.11.11",
     "@reduxjs/toolkit": "^1.9.3",
+    "@types/validator": "^13.7.14",
     "firebase": "^9.19.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-redux": "^8.0.5",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.9",
-    "vite-tsconfig-paths": "^4.0.8"
+    "validator": "^13.9.0",
+    "vite-tsconfig-paths": "^4.0.8",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
