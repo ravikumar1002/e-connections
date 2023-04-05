@@ -26,6 +26,8 @@
       "@routes/*": ["routes/*"],
       "@components/*": ["components/*"],
       "@config/*": ["config/*"],
+      "@dto/*": ["dto/*"],
+
 
     }
   },
