@@ -1,14 +1,31 @@
+import { getAuth, onAuthStateChanged} from "firebase/auth";
+import { useEffect } from "react";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate , useNavigate} from "react-router-dom";
 
 export interface IProtectedRoutes {
   children?: JSX.Element;
 }
 
 const ProtectedRoutes = (props: IProtectedRoutes) => {
-  const [login, setlogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const auth = getAuth();
+  const navigate = useNavigate();
 
-  if (!login) return <Navigate replace to={"/login"} />;
+  useEffect(() => {
+    const AuthCheck = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      } else {
+        navigate("/login", { replace: true });
+        console.log("unauthorized");
+      }
+    });
+
+    return () => AuthCheck();
+  }, [auth]);
+
+  if (loading) return <Navigate replace to={"/login"} />;
 
   return <>{props.children}</>;
 };

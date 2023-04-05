@@ -31,7 +31,18 @@ const initialState: IAuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUserProfile: (state) => {
+      state.authUser = {
+          providerId: "",
+          uid: "",
+          displayName: null,
+          email: "",
+          phoneNumber: null,
+          photoURL: null,
+      }
+  }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signupThunk.pending, (state, action) => {
@@ -57,9 +68,10 @@ const authSlice = createSlice({
     .addCase(loginThunk.rejected, (state, action) => {
         state.authStatus = "rejected";
     })
-
   },
 
 });
+
+export const { logoutUserProfile } = authSlice.actions
 
 export const authReducer = authSlice.reducer;

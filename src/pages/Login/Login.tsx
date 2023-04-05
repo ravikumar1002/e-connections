@@ -14,7 +14,7 @@ const Login = () => {
   const onSubmitHandler = (values: any) => {
     console.log(values);
     dispatch(loginThunk(values));
-    // navigate(location?.state?.from?.pathname || "/", { replace: true });
+    navigate(location?.state?.from?.pathname || "/", { replace: true });
   };
 
   return (
