@@ -2,7 +2,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { string, object } from "zod";
 import { useNavigate, useLocation } from 'react-router-dom';
-import validator from 'validator';
 import { IUserRegistration } from '@dto/user_data';
 import { signupThunk } from '@thunk/authThunk';
 import { useAppDispatch } from './useAppDispatch';

@@ -98,7 +98,7 @@ const Signup = () => {
             </Grid>
             <Grid mt={4} container justifyContent="center">
               <LoadingButton
-                loading={authStatus === "pending" ? true : false}
+                loading={authStatus === "pending"}
                 sx={{ width: { sm: "100%", md: "50%" } }}
                 variant="contained"
                 type="submit"
@@ -117,7 +117,7 @@ const Signup = () => {
               Already have an account?
             </Typography>
 
-            <LinkItem to="/signup" replace={true}>
+            <LinkItem to="/signup" replace>
               Click to Login
             </LinkItem>
           </Box>

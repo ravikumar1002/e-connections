@@ -16,10 +16,9 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
-const app = initializeApp(firebaseConfigs);
+const firebaseApp = initializeApp(firebaseConfigs);
 
-
-function App() {
+const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Core />}>
@@ -44,6 +43,6 @@ function App() {
       <RouterProvider router={router} />
     </div>
   );
-}
+};
 
 export default App;
