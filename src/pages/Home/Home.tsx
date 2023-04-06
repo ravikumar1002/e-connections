@@ -1,5 +1,6 @@
 import UserPost from "@components/Posts/Post";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useAppSelector } from "@hooks/useAppSelector";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
 import { logoutUserProfile } from "@slice/authSlice";
 import { getAuth, signOut } from "firebase/auth";
@@ -8,6 +9,7 @@ import { useEffect } from "react";
 const Home = () => {
   const dispatch = useAppDispatch();
   const auth = getAuth();
+  const { posts, getPostsStatus } = useAppSelector((state) => state.appData);
 
   useEffect(() => {
     useDocumentTitle("Home");
@@ -35,8 +37,10 @@ const Home = () => {
           gap: "2rem",
         }}
       >
-        {/* <UserPost />
-        <UserPost /> */}
+        {getPostsStatus === "fulfilled" &&
+          posts.map((post) => {
+            return <UserPost postData={post} key={post.id} />;
+          })}
       </div>
     </div>
   );

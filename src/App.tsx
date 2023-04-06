@@ -1,13 +1,18 @@
 import Core from "@components/Core/Core";
 import Layout from "@components/Layout/Layout";
 import firebaseConfigs from "@config/firebase";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 import RouteNotFound from "@pages/ErrorPage/RouteNotFound";
 import Home from "@pages/Home/Home";
 import Login from "@pages/Login/Login";
 import Profile from "@pages/Profile/Profile";
 import Signup from "@pages/Signup/Signup";
 import ProtectedRoutes from "@routes/ProtectedRoutes";
+import { getPostsThunk } from "@thunk/postThunk";
+import { getUsersThunk } from "@thunk/userThunk";
 import { initializeApp } from "firebase/app";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import {
   createBrowserRouter,
@@ -39,6 +44,12 @@ const App = () => {
       </Route>
     )
   );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getUsersThunk());
+    dispatch(getPostsThunk());
+  }, []);
 
   return (
     <div className="App">

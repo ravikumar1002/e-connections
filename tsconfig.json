@@ -28,6 +28,7 @@
       "@config/*": ["config/*"],
       "@dto/*": ["dto/*"],
       "@assets/*": ["assets/*"],
+      "@services/*": ["services/*"],
     }
   },
   "include": ["./src"],
