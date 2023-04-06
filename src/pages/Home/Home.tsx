@@ -1,3 +1,4 @@
+import UserPost from "@components/Posts/Post";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
 import { logoutUserProfile } from "@slice/authSlice";
@@ -11,7 +12,6 @@ const Home = () => {
   useEffect(() => {
     useDocumentTitle("Home");
   }, []);
-
 
   return (
     <div>
@@ -28,10 +28,16 @@ const Home = () => {
       >
         Logout
       </button>
-      <div>
-
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+        }}
+      >
+        {/* <UserPost />
+        <UserPost /> */}
       </div>
-      
     </div>
   );
 };
