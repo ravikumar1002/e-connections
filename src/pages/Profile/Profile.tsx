@@ -2,7 +2,8 @@ import { ProfileCard } from "@components/ProfileCard.tsx/ProfileCard";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
 import { useEffect, useState } from "react";
 
-// import { Box, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
+import { PersonalDetails } from "./PersonalDetails";
 
 const Profile = () => {
   const [value, setValue] = useState(0);
@@ -25,13 +26,13 @@ const Profile = () => {
       <div>
         <ProfileCard />
       </div>
-      {/* <Box sx={{ width: "100%", bgcolor: "red" }}>
-        <Tabs value={value} centered>
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+      <Box sx={{ width: "100%", margin: " 1rem 0 1rem 0" }}>
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Posts" />
+          <Tab label="Persnal Details" />
         </Tabs>
-      </Box> */}
+      </Box>
+      <Box>{value === 1 && <PersonalDetails />}</Box>
     </div>
   );
 };
