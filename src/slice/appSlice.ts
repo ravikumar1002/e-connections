@@ -10,6 +10,7 @@ interface IAppState {
   users: IUsersData,
   getPostsStatus: string,
   getUsersStatus: string,
+  profileModalOpen: boolean,
 }
 
 const initialState: IAppState = {
@@ -18,12 +19,17 @@ const initialState: IAppState = {
   users: [],
   getPostsStatus: "idle",
   getUsersStatus: "idle",
+  profileModalOpen: false,
 };
 
 const appDataSlice = createSlice({
   name: "appData",
   initialState,
-  reducers: {},
+  reducers: {
+    changeProfileModalState: (state, action) => {
+      state.profileModalOpen = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getPostsThunk.pending, (state, action) => {
@@ -50,5 +56,8 @@ const appDataSlice = createSlice({
       })
   },
 });
+
+export const { changeProfileModalState } = appDataSlice.actions
+
 
 export const appDataReducer = appDataSlice.reducer;

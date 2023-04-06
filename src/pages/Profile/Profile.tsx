@@ -9,10 +9,14 @@ import { getUserPostsThunk } from "@thunk/postThunk";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { IUserPosts } from "@dto/posts";
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { ModalBox } from "@components/Modal/Modal";
+import { changeProfileModalState } from "@slice/appSlice";
 
 const Profile = () => {
   const [value, setValue] = useState(0);
   const { posts } = useAppSelector((state) => state.user);
+  const { profileModalOpen } = useAppSelector((state) => state.appData);
+
   const dispatch = useAppDispatch();
 
   const [userCreatedPost, setUserCreatedPost] = useState<IUserPosts | []>([]);
@@ -30,6 +34,10 @@ const Profile = () => {
   useEffect(() => {
     setUserCreatedPost(posts);
   }, [posts]);
+
+  const handleCloseProfileEditModal = () => {
+    dispatch(changeProfileModalState(true));
+  };
 
   return (
     <div
@@ -55,6 +63,10 @@ const Profile = () => {
             return <UserPost postData={post} />;
           })}
       </Box>
+      <ModalBox>
+        <h2>ee sala cup namde</h2>
+        <button onClick={handleCloseProfileEditModal}>Close</button>
+      </ModalBox>
     </div>
   );
 };
