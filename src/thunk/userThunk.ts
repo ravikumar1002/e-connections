@@ -1,6 +1,6 @@
 import { IUserData, IUsersData } from "@dto/user_data";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GetAxiosDataAsJSON } from "@services/getAxiosDataAsJSON";
+import { GetAxiosDataAsJSON } from "@services/GetAxiosDataAsJSON";
 
 
 export const getUsersThunk = createAsyncThunk(
