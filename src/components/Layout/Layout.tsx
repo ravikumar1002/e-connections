@@ -29,6 +29,7 @@ const Layout = () => {
                   sm: `${theme.mixins.drawerWidth.collapsed.sm + 3}px`,
                   xs: `${theme.mixins.drawerWidth.collapsed.xs + 3}px`,
                 },
+            minHeight: `calc(100vh - ${theme.mixins.appBar.height}px)`,
           }}
         >
           <Outlet />
