@@ -1,6 +1,6 @@
 import { IPosts } from "@dto/posts";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GetAxiosDataAsJSON } from "@services/getAxiosDataAsJSON";
+import { GetAxiosDataAsJSON } from "@services/GetAxiosDataAsJSON";
 
 
 export const getPostsThunk = createAsyncThunk(
