@@ -47,6 +47,7 @@ interface IuserPost {
 const UserPost = (props: IuserPost) => {
   const [expanded, setExpanded] = useState(false);
   const { title, body, id, userId } = props.postData;
+  
   const { users, getUsersStatus } = useAppSelector((state) => state.appData);
   const [userDetails, setUserDetails] = useState<IUserData | undefined>();
   const handleExpandClick = () => {
@@ -62,7 +63,7 @@ const UserPost = (props: IuserPost) => {
   }, [users]);
 
   return (
-    <Card sx={{ maxWidth: 500 }}>
+    <Card sx={{ maxWidth: 800 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">

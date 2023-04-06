@@ -15,14 +15,5 @@ export const getUsersThunk = createAsyncThunk(
     }
 );
 
-// export const getUserThunk = createAsyncThunk(
-//     "/appData/getUsers", async ({id:number}, { rejectWithValue }) => {
-//         try {
-//             const response = await GetAxiosDataAsJSON<IUserData>("/User/id");
-//             return response
-//         } catch (error: any) {
-//             console.log(error);
-//             return rejectWithValue(error);
-//         }
-//     }
-// );
+
+

@@ -1,5 +1,7 @@
+import { IUserPosts } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
+import { getUserPostsThunk } from "@thunk/postThunk";
 interface IAuthUser {
   providerId: string,
   uid: string,
@@ -11,6 +13,8 @@ interface IAuthUser {
 
 interface IAuthState {
   authUser: IAuthUser,
+  posts: IUserPosts,
+  postStatus: string,
   authStatus: string,
   authError: string | null,
 }
@@ -24,6 +28,8 @@ const initialState: IAuthState = {
     phoneNumber: null,
     photoURL: null,
   },
+  posts: [],
+  postStatus: "idle",
   authStatus: "idle",
   authError: null,
 };
@@ -67,6 +73,17 @@ const authSlice = createSlice({
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.authStatus = "rejected";
+      })
+      .addCase(getUserPostsThunk.pending, (state, action) => {
+        state.postStatus = "pending";
+      })
+      .addCase(getUserPostsThunk.fulfilled, (state, action) => {
+        state.postStatus = "fulfilled";
+        state.posts = <IUserPosts>action.payload;
+
+      })
+      .addCase(getUserPostsThunk.rejected, (state, action) => {
+        state.postStatus = "rejected";
       })
   },
 
