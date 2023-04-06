@@ -6,6 +6,8 @@ import { Controller } from "react-hook-form";
 import { useAppSelector } from "@hooks/useAppSelector";
 import useLogin from "@hooks/useLogin";
 import styled from "@emotion/styled";
+import { useEffect } from "react";
+import { useDocumentTitle } from "@hooks/useDocumentTitle";
 
 export const LinkItem = styled(Link)`
   text-decoration: none;
@@ -22,6 +24,10 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const { submitLoginForm, formUtils } = useLogin();
   const { authStatus } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    useDocumentTitle("Login");
+  }, []);
 
   return (
     <Box>
