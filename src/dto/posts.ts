@@ -18,3 +18,13 @@ export interface IComment {
     email: string
     body: string
 }
+
+
+export type IUserPosts = IuserPost[]
+
+export interface IuserPost {
+    userId: number
+    id: number
+    title: string
+    body: string
+}

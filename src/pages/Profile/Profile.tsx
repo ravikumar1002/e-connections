@@ -4,9 +4,18 @@ import { useEffect, useState } from "react";
 
 import { Box, Tabs, Tab } from "@mui/material";
 import { PersonalDetails } from "./PersonalDetails";
+import UserPost from "@components/Posts/Post";
+import { getUserPostsThunk } from "@thunk/postThunk";
+import { useAppSelector } from "@hooks/useAppSelector";
+import { IUserPosts } from "@dto/posts";
+import { useAppDispatch } from "@hooks/useAppDispatch";
 
 const Profile = () => {
   const [value, setValue] = useState(0);
+  const { posts } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  const [userCreatedPost, setUserCreatedPost] = useState<IUserPosts | []>([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -14,7 +23,13 @@ const Profile = () => {
 
   useEffect(() => {
     useDocumentTitle("Profile");
+    dispatch(getUserPostsThunk());
+    setUserCreatedPost(posts);
   }, []);
+
+  useEffect(() => {
+    setUserCreatedPost(posts);
+  }, [posts]);
 
   return (
     <div
@@ -33,6 +48,13 @@ const Profile = () => {
         </Tabs>
       </Box>
       <Box>{value === 1 && <PersonalDetails />}</Box>
+      <Box>
+        {value === 0 &&
+          userCreatedPost &&
+          userCreatedPost.map((post) => {
+            return <UserPost postData={post} />;
+          })}
+      </Box>
     </div>
   );
 };
