@@ -1,14 +1,20 @@
 import { useAppDispatch } from "@hooks/useAppDispatch";
+import { useDocumentTitle } from "@hooks/useDocumentTitle";
 import { logoutUserProfile } from "@slice/authSlice";
 import { getAuth, signOut } from "firebase/auth";
+import { useEffect } from "react";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const auth = getAuth();
 
+  useEffect(() => {
+    useDocumentTitle("Home");
+  }, []);
+
+
   return (
     <div>
-      <h2>Home</h2>
       <button
         color="inherit"
         onClick={() => {
@@ -22,6 +28,9 @@ const Home = () => {
       >
         Logout
       </button>
+      <div>
+
+      </div>
       
     </div>
   );

@@ -1,10 +1,16 @@
-const Profile = () => {
+import { useDocumentTitle } from "@hooks/useDocumentTitle";
+import { useEffect } from "react";
 
-    return (
-        <div>
-          <h2>Profile</h2>
-        </div>
-    );
+const Profile = () => {
+  useEffect(() => {
+    useDocumentTitle("Profile");
+  }, []);
+
+  return (
+    <div>
+      <h2>Profile</h2>
+    </div>
+  );
 };
 
 export default Profile;

@@ -27,8 +27,7 @@
       "@components/*": ["components/*"],
       "@config/*": ["config/*"],
       "@dto/*": ["dto/*"],
-
-
+      "@assets/*": ["assets/*"],
     }
   },
   "include": ["./src"],
