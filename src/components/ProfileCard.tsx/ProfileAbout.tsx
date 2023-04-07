@@ -27,7 +27,7 @@ export const ProfileAbout = () => {
         </Typography>
       </div>
       <div>
-        <Button variant="contained" onclick={handleOpenProfileEditModal}>
+        <Button variant="contained" onClick={handleOpenProfileEditModal}>
           Edit
         </Button>
       </div>

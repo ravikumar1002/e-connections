@@ -59,7 +59,6 @@ const UserPost = (props: IuserPost) => {
   useEffect(() => {
     const userData = findUserDetails(userId);
     setUserDetails(userData);
-    console.log(userData);
   }, [users]);
 
   return (

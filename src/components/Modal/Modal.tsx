@@ -1,7 +1,6 @@
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import { Box, Modal } from "@mui/material";
 import { changeProfileModalState } from "@slice/appSlice";
 
 const style = {
@@ -13,6 +12,10 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  borderRadius: "10px",
 };
 
 interface IModalProps {
