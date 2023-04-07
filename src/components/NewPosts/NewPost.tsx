@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { blue } from "@mui/material/colors";
+import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { LoadingButton } from "@mui/lab";
 
 const Item = (props) => {
   const { sx, ...other } = props;
@@ -29,15 +32,18 @@ const Item = (props) => {
 export const NewCreatePost = () => {
   const updatePost = false;
   const updateData = {
+    userId: 11,
     title: "",
     body: "",
   };
 
+  const dispatch = useAppDispatch();
+
   const [inputValue, setInputValue] = useState(
-    updatePost ? { ...updateData } : { title: "", body: "" }
+    updatePost ? { ...updateData } : { title: "", body: "", userId: 2 }
   );
 
-  const { posts, authUser, authUserData } = useAppSelector(
+  const { posts, authUser, authUserData, createPostStatus  } = useAppSelector(
     (state) => state.user
   );
 
@@ -118,9 +124,28 @@ export const NewCreatePost = () => {
           >
             {inputValue.body.length}/360 characters
           </Typography>
-          <Button variant="contained" onClick={() => {}}>
+          {/* <Button
+            variant="contained"
+            onClick={async () => {
+              await dispatch(createPostsThunk(inputValue));
+              await dispatch(getUserPostsThunk());
+              setInputValue({ title: "", body: "", userId: 11 });
+            }}
+          >
             Post
-          </Button>
+          </Button> */}
+          <LoadingButton
+                loading={createPostStatus === "pending"}
+                variant="contained"
+                onClick={async () => {
+                    await dispatch(createPostsThunk(inputValue));
+                    await dispatch(getUserPostsThunk());
+                    setInputValue({ title: "", body: "", userId: 11 });
+                  }}
+              >
+                Post
+              </LoadingButton>
+
         </div>
       </Box>
     </div>

@@ -22,7 +22,7 @@ type IUpdateUserData = {};
 
 const Profile = () => {
   const [value, setValue] = useState(0);
-  const { posts, authUser, authUserData } = useAppSelector(
+  const { createdPosts , authUser, authUserData } = useAppSelector(
     (state) => state.user
   );
 
@@ -44,13 +44,13 @@ const Profile = () => {
   useEffect(() => {
     useDocumentTitle("Profile");
     dispatch(getUserPostsThunk());
-    setUserCreatedPost(posts);
+    setUserCreatedPost(createdPosts);
   }, []);
 
   useEffect(() => {
-    setUserCreatedPost(posts);
+    setUserCreatedPost([...createdPosts].reverse());
     setUserInformations({ ...authUserData });
-  }, [posts, authUser, authUserData, auth]);
+  }, [createdPosts, authUser, authUserData, auth]);
 
   const updateUserData = async (data) => {
     console.log(data)

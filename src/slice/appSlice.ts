@@ -1,7 +1,7 @@
 import { IComments, IPosts } from "@dto/posts";
 import { IUsersData } from "@dto/user_data";
 import { createSlice } from "@reduxjs/toolkit";
-import { getPostsThunk } from "@thunk/postThunk";
+import { createPostsThunk, getPostsThunk } from "@thunk/postThunk";
 import { getUsersThunk } from "@thunk/userThunk";
 
 interface IAppState {

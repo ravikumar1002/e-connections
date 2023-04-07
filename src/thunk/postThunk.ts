@@ -1,6 +1,7 @@
 import { IPosts, IUserPosts } from "@dto/posts";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetAxiosDataAsJSON } from "@services/GetAxiosDataAsJSON";
+import axios from "axios";
 
 
 export const getPostsThunk = createAsyncThunk(
@@ -20,7 +21,42 @@ export const getUserPostsThunk = createAsyncThunk(
     "/appData/getUserPosts", async (_, { rejectWithValue }) => {
         try {
             const response = await GetAxiosDataAsJSON<IUserPosts>("users/2/posts");
+            console.log(response, "ussrePosts")
             return response
+        } catch (error: any) {
+            console.log(error);
+            return rejectWithValue(error);
+        }
+    }
+);
+// fetch("https://jsonplaceholder.typicode.com/posts", {
+//     method: "POST",
+//     body: JSON.stringify({
+//         title: "foo",
+//         body: "bar",
+//         userId: 2,
+//     }),
+//     headers: {
+//         "Content-type": "application/json; charset=UTF-8",
+//     },
+// })
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
+
+
+export const createPostsThunk = createAsyncThunk(
+    "/appData/createUserPost", async (postData: object, { rejectWithValue }) => {
+        try {
+            const newPost = await fetch("https://jsonplaceholder.typicode.com/posts", {
+                method: "POST",
+                body: JSON.stringify({ ...postData }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            })
+                .then((response) => response.json())
+                .then((json) => json);
+            return newPost
         } catch (error: any) {
             console.log(error);
             return rejectWithValue(error);

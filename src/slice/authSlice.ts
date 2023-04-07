@@ -1,7 +1,7 @@
 import { IUserPosts } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
-import { getUserPostsThunk } from "@thunk/postThunk";
+import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
 import { getUserDataThunk } from "@thunk/userDataThunk";
 export interface IAuthUser {
   providerId: string,
@@ -24,7 +24,9 @@ interface IAuthState {
   authUser: IAuthUser,
   authUserData: IAuthUserData,
   posts: IUserPosts,
+  createdPosts: IUserPosts,
   postStatus: string,
+  createPostStatus: string,
   authStatus: string,
   authError: string | null,
 }
@@ -46,7 +48,9 @@ const initialState: IAuthState = {
     name: "",
   },
   posts: [],
+  createdPosts: [],
   postStatus: "idle",
+  createPostStatus: "idle",
   authStatus: "idle",
   authError: null,
 };
@@ -93,27 +97,27 @@ const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state: IAuthState) => {
         state.authStatus = "rejected";
       })
-      .addCase(getUserPostsThunk.pending, (state: IAuthState) => {
-        state.postStatus = "pending";
-      })
-      .addCase(getUserPostsThunk.fulfilled, (state: IAuthState, action: { payload: IUserPosts }) => {
-        state.postStatus = "fulfilled";
-        state.posts = <IUserPosts>action.payload;
-
-      })
-      .addCase(getUserPostsThunk.rejected, (state: IAuthState,) => {
-        state.postStatus = "rejected";
-      })
       .addCase(getUserDataThunk.pending, (state: IAuthState) => {
         state.postStatus = "pending";
       })
-      .addCase(getUserDataThunk.fulfilled, (state: IAuthState, action) => {
+      .addCase(getUserDataThunk.fulfilled, (state, action) => {
         state.postStatus = "fulfilled";
         state.authUserData = action.payload;
         console.log(action.payload, "action payload")
       })
       .addCase(getUserDataThunk.rejected, (state: IAuthState,) => {
         state.postStatus = "rejected";
+      })
+      .addCase(createPostsThunk.pending, (state, action) => {
+        state.createPostStatus = "pending";
+      })
+      .addCase(createPostsThunk.fulfilled, (state, action) => {
+        state.createPostStatus = "fulfilled";
+        console.log(action.payload, "created")
+        state.createdPosts = [...state.createdPosts, action.payload];;
+      })
+      .addCase(createPostsThunk.rejected, (state, action) => {
+        state.createPostStatus = "rejected";
       })
   },
 
