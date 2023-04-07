@@ -1,3 +1,4 @@
+import { NewCreatePost } from "@components/NewPosts/NewPost";
 import UserPost from "@components/Posts/Post";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
@@ -17,19 +18,11 @@ const Home = () => {
 
   return (
     <div>
-      <button
-        color="inherit"
-        onClick={() => {
-          signOut(auth)
-            .then(() => {
-              localStorage.clear();
-              dispatch(logoutUserProfile());
-            })
-            .catch((error) => {});
-        }}
-      >
-        Logout
-      </button>
+      <div style={{
+        margin: "1rem 0 1rem 0"
+      }}>
+        <NewCreatePost />
+      </div>
       <div
         style={{
           display: "flex",
