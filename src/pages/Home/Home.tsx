@@ -18,10 +18,12 @@ const Home = () => {
 
   return (
     <div>
-      <div style={{
-        margin: "1rem 0 1rem 0"
-      }}>
-        <NewCreatePost />
+      <div
+        style={{
+          margin: "1rem 0 1rem 0",
+        }}
+      >
+        <NewCreatePost updatePost={false} />
       </div>
       <div
         style={{

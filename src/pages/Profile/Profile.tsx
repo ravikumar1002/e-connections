@@ -22,7 +22,7 @@ type IUpdateUserData = {};
 
 const Profile = () => {
   const [value, setValue] = useState(0);
-  const { createdPosts , authUser, authUserData } = useAppSelector(
+  const { createdPosts, authUser, authUserData } = useAppSelector(
     (state) => state.user
   );
 
@@ -58,7 +58,8 @@ const Profile = () => {
         db,
         `${auth?.currentUser.providerData[0].uid}`,
         "Personal-informations"
-      ),{...data}
+      ),
+      { ...data }
     );
   };
 
@@ -79,7 +80,13 @@ const Profile = () => {
         </Tabs>
       </Box>
       <Box>{value === 1 && <PersonalDetails />}</Box>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+        }}
+      >
         {value === 0 &&
           userCreatedPost &&
           userCreatedPost.map((post) => {

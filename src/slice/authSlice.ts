@@ -82,6 +82,17 @@ const authSlice = createSlice({
         photoURL: null,
       }
     },
+    updateUserPost: (state, action) => {
+      console.log(action.payload, state.posts)
+      const editPost = state.createdPosts.map(post => post.id === action.payload.id ? action.payload : post)
+      console.log(editPost, "--------edit post")
+      state.createdPosts = editPost
+    },
+    deleteUserPost: (state, action) => {
+      const filterPostAfterDelete = state.createdPosts.filter(post => post.id !== action.payload)
+      state.createdPosts = filterPostAfterDelete
+    }
+
   },
   extraReducers: (builder) => {
     builder
@@ -122,7 +133,7 @@ const authSlice = createSlice({
       })
       .addCase(createPostsThunk.fulfilled, (state, action) => {
         state.createPostStatus = "fulfilled";
-        state.createdPosts = [...state.createdPosts, action.payload];;
+        state.createdPosts = [...state.createdPosts, { ...action.payload, id: state.posts.length + 101 }];;
       })
       .addCase(createPostsThunk.rejected, (state, action) => {
         state.createPostStatus = "rejected";
@@ -131,6 +142,6 @@ const authSlice = createSlice({
 
 });
 
-export const { addUserData, logoutUserProfile, likeUserPostHandler, removedFromLiked } = authSlice.actions
+export const { addUserData, logoutUserProfile, likeUserPostHandler, removedFromLiked, updateUserPost, deleteUserPost } = authSlice.actions
 
 export const authReducer = authSlice.reducer;

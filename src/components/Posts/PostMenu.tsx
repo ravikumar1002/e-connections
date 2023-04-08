@@ -22,12 +22,12 @@ export const PostMenu = (props: IPostMenu) => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  // const handleClose = (event) => {
-  //   if (anchorRef.current && anchorRef.current.contains(event.target)) {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // };
+  const handleAwayClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
 
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
@@ -77,7 +77,7 @@ export const PostMenu = (props: IPostMenu) => {
               }}
             >
               <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
+                <ClickAwayListener onClickAway={handleAwayClose}>
                   <MenuList
                     autoFocusItem={open}
                     id="composition-menu"

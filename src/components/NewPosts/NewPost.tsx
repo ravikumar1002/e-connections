@@ -8,6 +8,7 @@ import { blue } from "@mui/material/colors";
 import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { LoadingButton } from "@mui/lab";
+import { updateUserPost } from "@slice/authSlice";
 
 const Item = (props) => {
   const { sx, ...other } = props;
@@ -29,21 +30,31 @@ const Item = (props) => {
   );
 };
 
-export const NewCreatePost = () => {
-  const updatePost = false;
-  const updateData = {
-    userId: 11,
-    title: "",
-    body: "",
-  };
+interface IUpdateData {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+interface INewCreatePost {
+  updatePost: boolean;
+  setUpdatePost?: React.Dispatch<React.SetStateAction<boolean>>;
+  updateData?: IUpdateData;
+}
+
+export const NewCreatePost = (props: INewCreatePost) => {
+  const { updateData, updatePost, setUpdatePost } = props;
 
   const dispatch = useAppDispatch();
 
   const [inputValue, setInputValue] = useState(
-    updatePost ? { ...updateData } : { title: "", body: "", userId: 2 }
+    updatePost
+      ? { ...updateData }
+      : { title: "", body: "", id: null, userId: 11 }
   );
 
-  const { posts, authUser, authUserData, createPostStatus } = useAppSelector(
+  const { authUserData, createPostStatus } = useAppSelector(
     (state) => state.user
   );
 
@@ -118,23 +129,35 @@ export const NewCreatePost = () => {
           <Typography
             sx={{
               margin: "0 2rem",
-              color: inputValue.body.length >= 360 - 5 ? "red" : "inherit",
+              color: inputValue?.body?.length >= 360 - 5 ? "red" : "inherit",
             }}
             variant="caption"
           >
-            {inputValue.body.length}/360 characters
+            {inputValue?.body?.length}/360 characters
           </Typography>
-          <LoadingButton
-            loading={createPostStatus === "pending"}
-            variant="contained"
-            onClick={async () => {
-              await dispatch(createPostsThunk(inputValue));
-              await dispatch(getUserPostsThunk());
-              setInputValue({ title: "", body: "", userId: 11 });
-            }}
-          >
-            Post
-          </LoadingButton>
+          {updatePost ? (
+            <LoadingButton
+              variant="contained"
+              onClick={async () => {
+                await dispatch(updateUserPost(inputValue));
+                setUpdatePost(false);
+              }}
+            >
+              Update
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              loading={createPostStatus === "pending"}
+              variant="contained"
+              onClick={async () => {
+                await dispatch(createPostsThunk(inputValue));
+                await dispatch(getUserPostsThunk());
+                setInputValue({ title: "", body: "", userId: 11, id: null });
+              }}
+            >
+              Post
+            </LoadingButton>
+          )}
         </div>
       </Box>
     </div>
