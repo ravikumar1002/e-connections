@@ -22,7 +22,6 @@ const Header = (props: IHeaderProps) => {
   const { open, setOpen } = props;
   const auth = getAuth();
   const dispatch = useAppDispatch();
-
   const theme = useTheme();
 
   return (
@@ -54,7 +53,9 @@ const Header = (props: IHeaderProps) => {
               News
             </Typography>
             <Button
-              color="inherit"
+              sx={{
+                border: "1px solid white",
+              }}
               onClick={() => {
                 signOut(auth)
                   .then(() => {
@@ -64,7 +65,7 @@ const Header = (props: IHeaderProps) => {
                   .catch((error) => {});
               }}
             >
-              Login
+              Logout
             </Button>
           </Toolbar>
         </AppBar>
