@@ -8,6 +8,7 @@ interface IAppState {
   posts: IPosts,
   comments: IComments,
   users: IUsersData,
+  likedPost: number[],
   getPostsStatus: string,
   getUsersStatus: string,
   profileModalOpen: boolean,
@@ -17,6 +18,7 @@ const initialState: IAppState = {
   posts: [],
   comments: [],
   users: [],
+  likedPost: [],
   getPostsStatus: "idle",
   getUsersStatus: "idle",
   profileModalOpen: false,
@@ -28,7 +30,7 @@ const appDataSlice = createSlice({
   reducers: {
     changeProfileModalState: (state, action) => {
       state.profileModalOpen = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -38,7 +40,6 @@ const appDataSlice = createSlice({
       .addCase(getPostsThunk.fulfilled, (state, action) => {
         state.getPostsStatus = "fulfilled";
         state.posts = action.payload;
-        console.log(action.payload)
       })
       .addCase(getPostsThunk.rejected, (state, action) => {
         state.getPostsStatus = "rejected";
@@ -49,7 +50,6 @@ const appDataSlice = createSlice({
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.getUsersStatus = "fulfilled";
         state.users = action.payload;
-        console.log(action.payload)
       })
       .addCase(getUsersThunk.rejected, (state, action) => {
         state.getUsersStatus = "rejected";
@@ -57,7 +57,7 @@ const appDataSlice = createSlice({
   },
 });
 
-export const { changeProfileModalState } = appDataSlice.actions
+export const { changeProfileModalState} = appDataSlice.actions
 
 
 export const appDataReducer = appDataSlice.reducer;

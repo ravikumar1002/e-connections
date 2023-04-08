@@ -2,6 +2,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { Box, Modal } from "@mui/material";
 import { changeProfileModalState } from "@slice/appSlice";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute",

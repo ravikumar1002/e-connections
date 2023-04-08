@@ -43,7 +43,7 @@ export const NewCreatePost = () => {
     updatePost ? { ...updateData } : { title: "", body: "", userId: 2 }
   );
 
-  const { posts, authUser, authUserData, createPostStatus  } = useAppSelector(
+  const { posts, authUser, authUserData, createPostStatus } = useAppSelector(
     (state) => state.user
   );
 
@@ -124,7 +124,8 @@ export const NewCreatePost = () => {
           >
             {inputValue.body.length}/360 characters
           </Typography>
-          {/* <Button
+          <LoadingButton
+            loading={createPostStatus === "pending"}
             variant="contained"
             onClick={async () => {
               await dispatch(createPostsThunk(inputValue));
@@ -133,19 +134,7 @@ export const NewCreatePost = () => {
             }}
           >
             Post
-          </Button> */}
-          <LoadingButton
-                loading={createPostStatus === "pending"}
-                variant="contained"
-                onClick={async () => {
-                    await dispatch(createPostsThunk(inputValue));
-                    await dispatch(getUserPostsThunk());
-                    setInputValue({ title: "", body: "", userId: 11 });
-                  }}
-              >
-                Post
-              </LoadingButton>
-
+          </LoadingButton>
         </div>
       </Box>
     </div>

@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Collapse,
+  Avatar,
+  Typography,
+} from "@mui/material";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { TitleOutlined } from "@mui/icons-material";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { IUserData } from "@dto/user_data";
+import { useAppDispatch } from "@hooks/useAppDispatch";
+import { likeUserPostHandler, removedFromLiked } from "@slice/authSlice";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -46,9 +46,15 @@ interface IuserPost {
 
 const UserPost = (props: IuserPost) => {
   const [expanded, setExpanded] = useState(false);
+  const ref = useRef<number>(0);
   const { title, body, id, userId } = props.postData;
-  
-  const { users, getUsersStatus } = useAppSelector((state) => state.appData);
+  const dispatch = useAppDispatch();
+
+  const { users } = useAppSelector((state) => state.appData);
+  const { likedPost, posts, authStatus } = useAppSelector(
+    (state) => state.user
+  );
+
   const [userDetails, setUserDetails] = useState<IUserData | undefined>();
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -60,6 +66,8 @@ const UserPost = (props: IuserPost) => {
     const userData = findUserDetails(userId);
     setUserDetails(userData);
   }, [users]);
+
+  const isThisPostLiked = likedPost.includes(id);
 
   return (
     <Card sx={{ maxWidth: 800 }}>
@@ -81,7 +89,19 @@ const UserPost = (props: IuserPost) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          aria-label="add to favorites"
+          sx={{
+            color: isThisPostLiked ? "red" : "unset",
+          }}
+          onClick={() => {
+            if (isThisPostLiked) {
+              dispatch(removedFromLiked(id));
+              return;
+            }
+            dispatch(likeUserPostHandler(id));
+          }}
+        >
           <FavoriteIcon />
         </IconButton>
         <ExpandMore
@@ -93,7 +113,6 @@ const UserPost = (props: IuserPost) => {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>

@@ -8,7 +8,6 @@ import { db } from "../App";
 
 export const getUserDataThunk = createAsyncThunk(
     "/auth/userDataFirebase", async (userID: string | undefined, { rejectWithValue }) => {
-        console.log(userID)
         try {
             // @ts-ignore
             const response = await getDocs(collection(db, `${userID}`));

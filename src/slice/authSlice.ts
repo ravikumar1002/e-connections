@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
 import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
 import { getUserDataThunk } from "@thunk/userDataThunk";
+import { number } from "zod";
 export interface IAuthUser {
   providerId: string,
   uid: string,
@@ -20,10 +21,13 @@ export interface IAuthUserData {
   name: string,
 }
 
+// export interface ILikedPost { id: number }
+
 interface IAuthState {
   authUser: IAuthUser,
   authUserData: IAuthUserData,
   posts: IUserPosts,
+  likedPost: number[],
   createdPosts: IUserPosts,
   postStatus: string,
   createPostStatus: string,
@@ -49,6 +53,7 @@ const initialState: IAuthState = {
   },
   posts: [],
   createdPosts: [],
+  likedPost: [],
   postStatus: "idle",
   createPostStatus: "idle",
   authStatus: "idle",
@@ -59,10 +64,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    addUserData: (state: IAuthState, action: { payload: IAuthUser }) => {
+    addUserData: (state, action) => {
       state.authUser = action.payload
     },
-    logoutUserProfile: (state: IAuthState) => {
+    likeUserPostHandler: (state, action) => {
+      state.likedPost = [...state.likedPost, action.payload]
+    },
+    removedFromLiked: (state, action) => {
+      state.likedPost = state.likedPost.filter(post => post !== action.payload)
+    },
+    logoutUserProfile: (state) => {
       state.authUser = {
         providerId: "",
         uid: "",
@@ -71,7 +82,7 @@ const authSlice = createSlice({
         phoneNumber: null,
         photoURL: null,
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -103,7 +114,6 @@ const authSlice = createSlice({
       .addCase(getUserDataThunk.fulfilled, (state, action) => {
         state.postStatus = "fulfilled";
         state.authUserData = action.payload;
-        console.log(action.payload, "action payload")
       })
       .addCase(getUserDataThunk.rejected, (state: IAuthState,) => {
         state.postStatus = "rejected";
@@ -113,7 +123,6 @@ const authSlice = createSlice({
       })
       .addCase(createPostsThunk.fulfilled, (state, action) => {
         state.createPostStatus = "fulfilled";
-        console.log(action.payload, "created")
         state.createdPosts = [...state.createdPosts, action.payload];;
       })
       .addCase(createPostsThunk.rejected, (state, action) => {
@@ -123,6 +132,6 @@ const authSlice = createSlice({
 
 });
 
-export const { addUserData, logoutUserProfile } = authSlice.actions
+export const { addUserData, logoutUserProfile, likeUserPostHandler, removedFromLiked } = authSlice.actions
 
 export const authReducer = authSlice.reducer;

@@ -21,7 +21,6 @@ export const getUserPostsThunk = createAsyncThunk(
     "/appData/getUserPosts", async (_, { rejectWithValue }) => {
         try {
             const response = await GetAxiosDataAsJSON<IUserPosts>("users/2/posts");
-            console.log(response, "ussrePosts")
             return response
         } catch (error: any) {
             console.log(error);
@@ -29,20 +28,6 @@ export const getUserPostsThunk = createAsyncThunk(
         }
     }
 );
-// fetch("https://jsonplaceholder.typicode.com/posts", {
-//     method: "POST",
-//     body: JSON.stringify({
-//         title: "foo",
-//         body: "bar",
-//         userId: 2,
-//     }),
-//     headers: {
-//         "Content-type": "application/json; charset=UTF-8",
-//     },
-// })
-//     .then((response) => response.json())
-//     .then((json) => console.log(json));
-
 
 export const createPostsThunk = createAsyncThunk(
     "/appData/createUserPost", async (postData: object, { rejectWithValue }) => {

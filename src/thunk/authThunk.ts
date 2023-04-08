@@ -47,19 +47,3 @@ export const loginThunk = createAsyncThunk(
   }
 );
 
-
-// export const updateUserThunk = createAsyncThunk(
-//   "/auth/updateUser", async (updatedValues: object, { rejectWithValue }) => {
-//     const auth = getAuth();
-//     try {
-//       const response = await updateProfile(auth?.currentUser, updatedValues);
-//       console.log(response)
-//       return response?.providerData[0]
-//     } catch (error: any) {
-//       const errorCode = error.code;
-//       const errorMessage = error.message;
-//       console.error(error, errorCode, errorMessage);
-//       return rejectWithValue(error);
-//     }
-//   }
-// );

@@ -11,7 +11,6 @@ export const useFirebaseStoreDataUpdate = async (
   try {
     // @ts-ignore
     const docRef = await updateDoc(doc(db, ...args), { ...data });
-    console.log(docRef);
     return docRef;
   } catch (e) {
     console.error("Error adding document: ", e);

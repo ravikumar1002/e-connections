@@ -53,7 +53,6 @@ const Profile = () => {
   }, [createdPosts, authUser, authUserData, auth]);
 
   const updateUserData = async (data) => {
-    console.log(data)
     await updateDoc(
       doc(
         db,
@@ -161,7 +160,6 @@ const Profile = () => {
         />
         <button
           onClick={async () => {
-            console.log(updateData, "userInformations")
             await updateUserData(updateData);
             dispatch(changeProfileModalState(false));
           }}
