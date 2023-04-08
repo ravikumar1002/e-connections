@@ -17,6 +17,8 @@ import { useAppSelector } from "@hooks/useAppSelector";
 import { IUserData } from "@dto/user_data";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { likeUserPostHandler, removedFromLiked } from "@slice/authSlice";
+import { CrateComments } from "./CreateComments";
+import { PostAllomments } from "./Postcomments";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -46,14 +48,12 @@ interface IuserPost {
 
 const UserPost = (props: IuserPost) => {
   const [expanded, setExpanded] = useState(false);
-  const ref = useRef<number>(0);
+  const [commentsOnSinglePost, setCommentsOnSinglePost] = useState([]);
   const { title, body, id, userId } = props.postData;
   const dispatch = useAppDispatch();
 
-  const { users } = useAppSelector((state) => state.appData);
-  const { likedPost, posts, authStatus } = useAppSelector(
-    (state) => state.user
-  );
+  const { users, comments } = useAppSelector((state) => state.appData);
+  const { likedPost } = useAppSelector((state) => state.user);
 
   const [userDetails, setUserDetails] = useState<IUserData | undefined>();
   const handleExpandClick = () => {
@@ -66,6 +66,13 @@ const UserPost = (props: IuserPost) => {
     const userData = findUserDetails(userId);
     setUserDetails(userData);
   }, [users]);
+
+  useEffect(() => {
+    const filterCommentsOnPost = comments.filter(
+      (comment) => comment.postId === id
+    );
+    setCommentsOnSinglePost(filterCommentsOnPost);
+  }, [comments]);
 
   const isThisPostLiked = likedPost.includes(id);
 
@@ -113,14 +120,17 @@ const UserPost = (props: IuserPost) => {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+      <CrateComments postID={id} />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum sed
-            voluptatum fugiat quos nam fuga ipsum, odit, a eius laudantium
-            distinctio, libero eveniet similique aliquid incidunt esse placeat
-            pariatur quis?
-          </Typography>
+        <CardContent
+          sx={{
+            maxHeight: "300px",
+            overflow: "scroll",
+          }}
+        >
+          {commentsOnSinglePost.map((comment) => {
+            return <PostAllomments comment={comment} key={comment.id} />;
+          })}
         </CardContent>
       </Collapse>
     </Card>

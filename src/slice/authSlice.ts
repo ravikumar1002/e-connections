@@ -5,34 +5,33 @@ import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
 import { getUserDataThunk } from "@thunk/userDataThunk";
 import { number } from "zod";
 export interface IAuthUser {
-  providerId: string,
-  uid: string,
-  displayName: null,
-  email: string,
-  phoneNumber: null,
-  photoURL: null,
+  providerId: string;
+  uid: string;
+  displayName: null;
+  email: string;
+  phoneNumber: null;
+  photoURL: null;
 }
 
 export interface IAuthUserData {
-  userName: string,
-  phoneNumber: number | null,
-  website: string,
-  bio: string,
-  name: string,
+  userName: string;
+  phoneNumber: number | null;
+  website: string;
+  bio: string;
+  name: string;
 }
 
-// export interface ILikedPost { id: number }
 
 interface IAuthState {
-  authUser: IAuthUser,
-  authUserData: IAuthUserData,
-  posts: IUserPosts,
-  likedPost: number[],
-  createdPosts: IUserPosts,
-  postStatus: string,
-  createPostStatus: string,
-  authStatus: string,
-  authError: string | null,
+  authUser: IAuthUser;
+  authUserData: IAuthUserData;
+  posts: IUserPosts;
+  likedPost: number[];
+  createdPosts: IUserPosts;
+  postStatus: string;
+  createPostStatus: string;
+  authStatus: string;
+  authError: string | null;
 }
 
 const initialState: IAuthState = {

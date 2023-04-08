@@ -5,11 +5,11 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import PersonIcon from '@mui/icons-material/Person';
 
 interface INavigationItem {
-    id: number,
-    path: string,
-    title: string,
-    icon: (props: SvgIconProps) => JSX.Element,
-    activeIcon: (props: SvgIconProps) => JSX.Element,
+    id: number;
+    path: string;
+    title: string;
+    icon: (props: SvgIconProps) => JSX.Element;
+    activeIcon: (props: SvgIconProps) => JSX.Element;
 }
 
 

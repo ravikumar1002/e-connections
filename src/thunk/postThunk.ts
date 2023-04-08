@@ -48,3 +48,16 @@ export const createPostsThunk = createAsyncThunk(
         }
     }
 );
+
+
+export const getAllPostsCommentsThunk = createAsyncThunk(
+    "/appData/getUserComments", async (_, { rejectWithValue }) => {
+        try {
+            const response = await GetAxiosDataAsJSON<IUserPosts>("comments");
+            return response
+        } catch (error: any) {
+            console.log(error);
+            return rejectWithValue(error);
+        }
+    }
+);

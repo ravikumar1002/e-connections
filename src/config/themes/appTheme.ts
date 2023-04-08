@@ -5,16 +5,16 @@ declare module '@mui/material/styles/createMixins' {
     interface Mixins {
         drawerWidth: {
             expanded: {
-                xs: number,
-                sm: number,
+                xs: number;
+                sm: number;
             }
             collapsed: {
-                xs: number,
-                sm: number,
+                xs: number;
+                sm: number;
             }
         };
         appBar: {
-            height: number,
+            height: number;
         }
     }
 }
