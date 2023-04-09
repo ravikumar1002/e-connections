@@ -1,3 +1,4 @@
+import { IUserLogin } from "@dto/user_data";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "App";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -7,19 +8,22 @@ interface IValuesType {
   persistUser?: true | undefined;
   email: string;
   password: string;
+  name: string;
+  username: string;
 }
 
 export const signupThunk = createAsyncThunk(
   "/auth/signup", async (values: IValuesType, { rejectWithValue }) => {
     const auth = getAuth();
-    const { email, password } = values
+    const { email, password, name, username } = values
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, `${response.user?.providerData[0].uid}`, "Personal-informations"), {
-        username: "ABcde",
-        phoneNumber: 36363636636,
-        website: "asdsdbjabhdjsa.com",
-        bio: "luyfgausdgfadfasduifgasdufysadgfasdybdf dsdifasgd fsdiafyaifavsdbilf 9fuhoa0eaidfcbasiuvdg ppqe9ofgcoreddasgufagdifagfdg fausdfgas",
+        username: username,
+        phone: null,
+        name: name,
+        website: "",
+        bio: "",
       });
       return response.user;
     } catch (error: any) {
@@ -32,9 +36,9 @@ export const signupThunk = createAsyncThunk(
 );
 
 export const loginThunk = createAsyncThunk(
-  "/auth/login", async (values: IValuesType, { rejectWithValue }) => {
+  "/auth/login", async (userInfo: IUserLogin, { rejectWithValue }) => {
     const auth = getAuth();
-    const { email, password } = values
+    const { email, password } = userInfo
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       return response.user;

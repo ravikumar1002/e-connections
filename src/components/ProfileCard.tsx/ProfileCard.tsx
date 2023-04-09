@@ -1,11 +1,17 @@
+import { useAppSelector } from "@hooks/useAppSelector";
 import { Box, Typography } from "@mui/material";
 import { ProfileAbout } from "./ProfileAbout";
 import { ProfileImage } from "./ProfileImage";
 
-export const ProfileCard = () => {
-  const ProfileData = {
-    dp: "/static/images/avatar/1.jpg",
-  };
+interface IProfileCardData {
+  dp: string;
+  dpAlt: string;
+  name: string;
+  username: string;
+}
+
+export const ProfileCard = (props: IProfileCardData) => {
+  const { dp, dpAlt, name, username } = props;
   return (
     <div
       style={{
@@ -15,21 +21,21 @@ export const ProfileCard = () => {
     >
       <div
         style={{
-          width: "35%",
+          width: "20%",
           display: "flex",
           justifyContent: "center",
-        //   background: "red",
+          //   background: "red",
         }}
       >
-        <ProfileImage profileImageData={ProfileData} />
+        <ProfileImage dp={dp} dpAlt={dpAlt} />
       </div>
       <div
         style={{
-          width: "65%",
-        //   border: "2px solid black",
+          width: "80%",
+          //   border: "2px solid black",
         }}
       >
-        <ProfileAbout />
+        <ProfileAbout  name={name} username= {username}/>
       </div>
     </div>
   );

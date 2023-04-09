@@ -1,7 +1,6 @@
 import { ProfileCard } from "@components/ProfileCard.tsx/ProfileCard";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
 import { useEffect, useState } from "react";
-
 import { Box, Tabs, Tab, TextField } from "@mui/material";
 import { PersonalDetails } from "./PersonalDetails";
 import UserPost from "@components/Posts/Post";
@@ -14,6 +13,9 @@ import { getAuth } from "firebase/auth";
 import { IAuthUserData } from "@slice/authSlice";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "App";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { getUserDataThunk } from "@thunk/userDataThunk";
 
 const Profile = () => {
   const [value, setValue] = useState(0);
@@ -44,9 +46,15 @@ const Profile = () => {
   useEffect(() => {
     setUserCreatedPost([...createdPosts].reverse());
     setUserInformations({ ...authUserData });
+  }, []);
+
+  useEffect(() => {
+    setUserCreatedPost([...createdPosts].reverse());
+    setUserInformations({ ...authUserData });
   }, [createdPosts, authUser, authUserData, auth]);
 
   const updateUserData = async (data: Partial<IAuthUserData>) => {
+    console.log(data);
     await updateDoc(
       doc(
         db,
@@ -55,6 +63,7 @@ const Profile = () => {
       ),
       { ...data }
     );
+    await dispatch(getUserDataThunk(auth?.currentUser?.providerData[0].uid));
   };
 
   return (
@@ -65,7 +74,12 @@ const Profile = () => {
       }}
     >
       <div>
-        <ProfileCard />
+        <ProfileCard
+          dp="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fprofile_3135715&psig=AOvVaw2lvhMCjGwS_h4IqPMLZs63&ust=1681129678851000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCNi9g53mnP4CFQAAAAAdAAAAABAE"
+          dpAlt={authUserData.name}
+          name={authUserData.name}
+          username={authUserData.username}
+        />
       </div>
       <Box sx={{ width: "100%", margin: " 1rem 0 1rem 0" }}>
         <Tabs value={value} onChange={handleChange} centered>
@@ -90,7 +104,7 @@ const Profile = () => {
                   email: authUser.email,
                   id: 11,
                   name: authUserData.name,
-                  phone: authUserData.phoneNumber ?? "",
+                  phone: authUserData.phone ?? "",
                   username: authUserData.username,
                   website: authUserData.website,
                 }}
@@ -101,13 +115,16 @@ const Profile = () => {
           })}
       </Box>
       <ModalBox>
+        <Typography variant="h6" component="h2" textAlign={"center"}>
+          Update Data
+        </Typography>
         <TextField
           required
           id="outlined-required"
           label="User Name"
           defaultValue={userInformations?.username}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 username: e.target?.value,
@@ -121,7 +138,7 @@ const Profile = () => {
           label="Name"
           defaultValue={userInformations?.name}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 name: e.target?.value,
@@ -132,25 +149,23 @@ const Profile = () => {
         <TextField
           required
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          id="outlined-required"
           label="Phone Number"
-          defaultValue={userInformations?.phoneNumber}
+          defaultValue={userInformations?.phone}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
-                phoneNumber: e.target?.value,
+                phone: e.target?.value,
               };
             });
           }}
         />
         <TextField
           required
-          id="outlined-required"
           label="website"
           defaultValue={userInformations?.website}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 website: e.target?.value,
@@ -160,11 +175,12 @@ const Profile = () => {
         />
         <TextField
           required
-          id="outlined-required"
           label="bio"
+          multiline
+          rows={4}
           defaultValue={userInformations?.bio}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 bio: e.target?.value,
@@ -172,14 +188,29 @@ const Profile = () => {
             });
           }}
         />
-        <button
-          onClick={async () => {
-            await updateUserData(updateData);
-            dispatch(changeProfileModalState(false));
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          Update
-        </button>
+          <Button
+            onClick={async () => {
+              setUserInformations({ ...authUserData });
+              dispatch(changeProfileModalState(false));
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={async () => {
+              await updateUserData(userInformations);
+              dispatch(changeProfileModalState(false));
+            }}
+          >
+            Update
+          </Button>
+        </Box>
       </ModalBox>
     </div>
   );

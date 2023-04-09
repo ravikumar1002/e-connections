@@ -158,7 +158,7 @@ const UserPost = (props: IuserPost) => {
                 onClick={handleExpandClick}
                 sx={{ cursor: "pointer", fontSize: "0.7rem" }}
               >
-                See all comments
+                See all comments ({commentsOnSinglePost?.length})
               </Typography>
               <ExpandMore
                 expand={expanded}
@@ -179,7 +179,7 @@ const UserPost = (props: IuserPost) => {
               }}
             >
               {commentsOnSinglePost.length > 0 ? (
-                commentsOnSinglePost.map((comment) => {
+                commentsOnSinglePost.reverse().map((comment) => {
                   return <PostAllComments comment={comment} key={comment.id} />;
                 })
               ) : (

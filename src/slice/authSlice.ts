@@ -15,7 +15,7 @@ export interface IAuthUser {
 
 export interface IAuthUserData {
   username: string;
-  phoneNumber: string | null;
+  phone: string;
   website: string;
   bio: string;
   name: string;
@@ -45,7 +45,7 @@ const initialState: IAuthState = {
   },
   authUserData: {
     username: "",
-    phoneNumber: null,
+    phone: "",
     website: "",
     bio: "",
     name: "",
@@ -81,6 +81,20 @@ const authSlice = createSlice({
         phoneNumber: null,
         photoURL: null,
       }
+      state.authUserData = {
+        username: "",
+        phone: "",
+        website: "",
+        bio: "",
+        name: "",
+      }
+      state.posts = []
+      state.createdPosts = []
+      state.likedPost = []
+      state.postStatus = "idle"
+      state.createPostStatus = "idle"
+      state.authStatus = "idle"
+      state.authError = null
     },
     updateUserPost: (state, action) => {
       console.log(action.payload, state.posts)

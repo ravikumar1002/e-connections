@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { getAuth, signOut } from "firebase/auth";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { logoutUserProfile } from "@slice/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IHeaderProps {
   open: boolean;
@@ -23,6 +24,7 @@ const Header = (props: IHeaderProps) => {
   const auth = getAuth();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -49,22 +51,36 @@ const Header = (props: IHeaderProps) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
-            </Typography>
+            <Link
+              to="/home"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                flexGrow: 1,
+              }}
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+            >
+              <Typography variant="h6" noWrap component="span">
+                E-connections
+              </Typography>
+            </Link>
             <Button
               sx={{
                 border: "1px solid white",
               }}
-              onClick={() => {
-                signOut(auth)
-                  .then(() => {
-                    localStorage.clear();
-                    dispatch(logoutUserProfile());
-                  })
-                  .catch((error) => {
-                    console.error(error)
+              onClick={async () => {
+                try {
+                  await signOut(auth);
+                  localStorage.clear();
+                  dispatch(logoutUserProfile());
+                  navigate("/login", {
+                    replace: true,
                   });
+                } catch (error) {
+                  console.error(error);
+                }
               }}
             >
               Logout

@@ -8,6 +8,10 @@ const Home = () => {
   const { posts, getPostsStatus, indexedUsers, getUsersStatus } =
     useAppSelector((state) => state.appData);
 
+  const { createdPosts, authUserData, authUser } = useAppSelector(
+    (state) => state.user
+  );
+
   useEffect(() => {
     useDocumentTitle("Home");
   }, []);
@@ -28,9 +32,26 @@ const Home = () => {
           gap: "2rem",
         }}
       >
+        {createdPosts &&
+          createdPosts?.map((post) => {
+            return (
+              <UserPost
+                userInfo={{
+                  id: 11,
+                  name: authUserData.name,
+                  username: authUserData.username,
+                  email: authUser.email,
+                  phone: authUserData.phone,
+                  website: authUserData.website,
+                }}
+                postData={post}
+                key={post.id}
+              />
+            );
+          })}
         {getPostsStatus === "fulfilled" &&
           getUsersStatus === "fulfilled" &&
-          posts?.slice(0,10).map((post) => {
+          posts?.slice(0, 10).map((post) => {
             return (
               <UserPost
                 userInfo={indexedUsers[post.userId]}

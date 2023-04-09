@@ -23,6 +23,8 @@ const useSignup = () => {
             .min(1, "Password is required")
             .min(8, "Password must be more than 8 characters")
             .max(32, "Password must be less than 32 characters"),
+        username: string().min(8, "Username  must be more than 8 characters"),
+        name: string().min(8, "Name is required")
     });
 
     const {
@@ -39,10 +41,10 @@ const useSignup = () => {
     ) => {
         e?.preventDefault();
         await dispatch(signupThunk(data));
-        if (authUser?.uid) {
+        if (authUser) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
-        }else{
-            alert("user alrady created")
+        } else{
+            alert("Alrady have account")
         }
     };
 

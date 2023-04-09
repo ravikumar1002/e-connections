@@ -2,10 +2,19 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IAuthUserData } from "@slice/authSlice";
 import {
     collection,
+    doc,
     getDocs,
+    setDoc,
 } from "firebase/firestore";
 import { db } from "../App";
 
+interface ISignupThunk {
+    name: string;
+    username: string;
+    email: string;
+    phone: string;
+    website: string;
+}
 
 export const getUserDataThunk = createAsyncThunk(
     "/auth/userDataFirebase", async (userID: string | undefined, { rejectWithValue }) => {
