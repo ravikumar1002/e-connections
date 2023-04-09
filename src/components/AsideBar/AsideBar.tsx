@@ -36,7 +36,7 @@ export const AsidebarNav = (props: ISideNavDrawerProps) => {
     display: "block",
   };
 
-  const getActiveStyle = ({ isActive }: { isActive: Boolean }) =>
+  const getActiveStyle = ({ isActive }: { isActive: boolean }) =>
     isActive ? activeStyle : inactiveStyle;
 
   return (

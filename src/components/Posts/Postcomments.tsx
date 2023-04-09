@@ -4,23 +4,24 @@ import {
   ListItemText,
   Typography,
   Box,
+  Menu,
+  IconButton,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { PostMenu } from "./PostMenu";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { deleteComment, editCommentInState } from "@slice/appSlice";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-export const PostAllomments = (props: any) => {
+export const PostAllComments = (props: any) => {
   const [editComment, setEditComment] = useState(false);
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
 
   const { authUser } = useAppSelector((state) => state.user);
   const { comment } = props;
   const [editCommentPara, setEditCommentPara] = useState({ body: "" });
-
+  const [menuAnchorComments, setMenuAnchorComments] =
+    useState<HTMLElement | null>(null);
   const dispatch = useAppDispatch();
 
   const CommentEvent = (targetValue: string) => {
@@ -32,16 +33,20 @@ export const PostAllomments = (props: any) => {
     });
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
+  const handleMenuClose = () => {
+    setMenuAnchorComments(null);
   };
 
   return (
     <div>
-      <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center" }}>
           <ListItemAvatar>
             <Avatar alt={comment.id} />
@@ -62,15 +67,17 @@ export const PostAllomments = (props: any) => {
             }
           />
         </div>
+        <IconButton onClick={(e) => setMenuAnchorComments(e.currentTarget)}>
+          <MoreVertIcon />
+        </IconButton>
         {comment.email === authUser.email && (
-          <PostMenu
-            handleClose={handleClose}
-            open={open}
-            setOpen={setOpen}
-            anchorRef={anchorRef}
+          <Menu
+            open={!!menuAnchorComments}
+            onClose={handleMenuClose}
+            anchorEl={menuAnchorComments}
           >
             <MenuItem
-              onClick={(e) => {
+              onClick={() => {
                 setEditCommentPara((prev) => {
                   return {
                     ...prev,
@@ -78,7 +85,7 @@ export const PostAllomments = (props: any) => {
                   };
                 });
                 setEditComment(true);
-                handleClose(e);
+                handleMenuClose();
               }}
             >
               Edit
@@ -86,11 +93,12 @@ export const PostAllomments = (props: any) => {
             <MenuItem
               onClick={() => {
                 dispatch(deleteComment(comment.id));
+                handleMenuClose();
               }}
             >
               Delete
             </MenuItem>
-          </PostMenu>
+          </Menu>
         )}
       </div>
       <div>

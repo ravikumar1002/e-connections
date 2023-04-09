@@ -1,9 +1,9 @@
-import { IUserPosts } from "@dto/posts";
+import { IUserPost } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
-import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
+import { createPostsThunk } from "@thunk/postThunk";
 import { getUserDataThunk } from "@thunk/userDataThunk";
-import { number } from "zod";
+
 export interface IAuthUser {
   providerId: string;
   uid: string;
@@ -14,8 +14,8 @@ export interface IAuthUser {
 }
 
 export interface IAuthUserData {
-  userName: string;
-  phoneNumber: number | null;
+  username: string;
+  phoneNumber: string | null;
   website: string;
   bio: string;
   name: string;
@@ -25,9 +25,9 @@ export interface IAuthUserData {
 interface IAuthState {
   authUser: IAuthUser;
   authUserData: IAuthUserData;
-  posts: IUserPosts;
+  posts: IUserPost[];
   likedPost: number[];
-  createdPosts: IUserPosts;
+  createdPosts: IUserPost[];
   postStatus: string;
   createPostStatus: string;
   authStatus: string;
@@ -44,7 +44,7 @@ const initialState: IAuthState = {
     photoURL: null,
   },
   authUserData: {
-    userName: "",
+    username: "",
     phoneNumber: null,
     website: "",
     bio: "",
@@ -128,14 +128,14 @@ const authSlice = createSlice({
       .addCase(getUserDataThunk.rejected, (state: IAuthState,) => {
         state.postStatus = "rejected";
       })
-      .addCase(createPostsThunk.pending, (state, action) => {
+      .addCase(createPostsThunk.pending, (state) => {
         state.createPostStatus = "pending";
       })
       .addCase(createPostsThunk.fulfilled, (state, action) => {
         state.createPostStatus = "fulfilled";
-        state.createdPosts = [...state.createdPosts, { ...action.payload, id: state.posts.length + 101 }];;
+        state.createdPosts = [...state.createdPosts, { ...action.payload, id: state.posts.length + 101 }];
       })
-      .addCase(createPostsThunk.rejected, (state, action) => {
+      .addCase(createPostsThunk.rejected, (state) => {
         state.createPostStatus = "rejected";
       })
   },

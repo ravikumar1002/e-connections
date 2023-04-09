@@ -1,13 +1,14 @@
-import { IComments, IPosts } from "@dto/posts";
-import { IUsersData } from "@dto/user_data";
+import { IComment, IPost } from "@dto/posts";
+import { IUserData, IUsersData } from "@dto/user_data";
 import { createSlice } from "@reduxjs/toolkit";
-import { createPostsThunk, getAllPostsCommentsThunk, getPostsThunk } from "@thunk/postThunk";
+import { getAllPostsCommentsThunk, getPostsThunk } from "@thunk/postThunk";
 import { getUsersThunk } from "@thunk/userThunk";
 
 interface IAppState {
-  posts: IPosts;
-  comments: IComments;
+  posts: IPost[];
+  comments: IComment[];
   users: IUsersData;
+  indexedUsers: Record<number, IUserData>,
   likedPost: number[];
   getPostsStatus: string;
   getCommentsStatus: string;
@@ -19,6 +20,7 @@ const initialState: IAppState = {
   posts: [],
   comments: [],
   users: [],
+  indexedUsers: {},
   likedPost: [],
   getPostsStatus: "idle",
   getUsersStatus: "idle",
@@ -48,34 +50,36 @@ const appDataSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPostsThunk.pending, (state, action) => {
+      .addCase(getPostsThunk.pending, (state) => {
         state.getPostsStatus = "pending";
       })
       .addCase(getPostsThunk.fulfilled, (state, action) => {
         state.getPostsStatus = "fulfilled";
         state.posts = action.payload;
       })
-      .addCase(getPostsThunk.rejected, (state, action) => {
+      .addCase(getPostsThunk.rejected, (state) => {
         state.getPostsStatus = "rejected";
       })
-      .addCase(getUsersThunk.pending, (state, action) => {
+      .addCase(getUsersThunk.pending, (state) => {
         state.getUsersStatus = "pending";
       })
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.getUsersStatus = "fulfilled";
+        const draftIndexedUsers = action.payload.reduce((prev, curr) => ({...prev, [curr.id]: curr }), {})
+        state.indexedUsers = draftIndexedUsers
         state.users = action.payload;
       })
-      .addCase(getUsersThunk.rejected, (state, action) => {
+      .addCase(getUsersThunk.rejected, (state) => {
         state.getUsersStatus = "rejected";
       })
-      .addCase(getAllPostsCommentsThunk.pending, (state, action) => {
+      .addCase(getAllPostsCommentsThunk.pending, (state) => {
         state.getCommentsStatus = "pending";
       })
       .addCase(getAllPostsCommentsThunk.fulfilled, (state, action) => {
         state.getCommentsStatus = "fulfilled";
         state.comments = action.payload;
       })
-      .addCase(getAllPostsCommentsThunk.rejected, (state, action) => {
+      .addCase(getAllPostsCommentsThunk.rejected, (state) => {
         state.getCommentsStatus = "rejected";
       })
   },
