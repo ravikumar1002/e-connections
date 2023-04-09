@@ -2,7 +2,6 @@ import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { Box, Modal } from "@mui/material";
 import { changeProfileModalState } from "@slice/appSlice";
-import { useEffect } from "react";
 
 const style = {
   position: "absolute",
@@ -26,7 +25,7 @@ interface IModalProps {
 }
 
 export const ModalBox = (props: IModalProps) => {
-  const { open, setOpen, children } = props;
+  const { children } = props;
   const { profileModalOpen } = useAppSelector((state) => state.appData);
   const dispatch = useAppDispatch();
 

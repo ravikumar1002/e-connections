@@ -59,7 +59,7 @@ const UserPost = (props: IuserPost) => {
   const dispatch = useAppDispatch();
 
   const { users, comments } = useAppSelector((state) => state.appData);
-  const { likedPost, authUserData } = useAppSelector((state) => state.user);
+  const { likedPost } = useAppSelector((state) => state.user);
 
   const [expanded, setExpanded] = useState(false);
   const [commentsOnSinglePost, setCommentsOnSinglePost] = useState<IComments>(
@@ -69,7 +69,7 @@ const UserPost = (props: IuserPost) => {
   const [editPost, setEditPost] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const anchorRef = useRef(null);
+  const anchorRef = useRef<HTMLButtonElement | null>(null);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -77,8 +77,8 @@ const UserPost = (props: IuserPost) => {
 
   const findUserDetails = (id: number) => users.find((user) => user.id === id);
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    if (anchorRef.current && anchorRef.current.contains(event.currentTarget)) {
       return;
     }
     setOpen(false);
@@ -108,7 +108,7 @@ const UserPost = (props: IuserPost) => {
             title: title,
             body: body,
             id: id,
-            UserId: 11,
+            userId: 11,
           }}
         />
       ) : (
@@ -127,15 +127,7 @@ const UserPost = (props: IuserPost) => {
                 anchorRef={anchorRef}
               >
                 <MenuItem
-                  onClick={(e) => {
-                    // setEditPostDetails((prev) => {
-                    //   return {
-                    //     ...prev,
-                    //     id: comment?.body,
-                    //     title: "",
-                    //     body: "",
-                    //   };
-                    // });
+                  onClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
                     setEditPost(true);
                     handleClose(e);
                   }}

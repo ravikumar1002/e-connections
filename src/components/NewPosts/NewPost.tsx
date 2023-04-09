@@ -2,7 +2,6 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import { Avatar, Button, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { blue } from "@mui/material/colors";
 import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
@@ -10,7 +9,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch";
 import { LoadingButton } from "@mui/lab";
 import { updateUserPost } from "@slice/authSlice";
 
-const Item = (props) => {
+const Item = (props: any) => {
   const { sx, ...other } = props;
   return (
     <Box
@@ -58,7 +57,7 @@ export const NewCreatePost = (props: INewCreatePost) => {
     (state) => state.user
   );
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 80) {
       setInputValue((prev) => {
         return {
@@ -69,7 +68,7 @@ export const NewCreatePost = (props: INewCreatePost) => {
     }
   };
 
-  const handleBodyChange = (e) => {
+  const handleBodyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 360) {
       setInputValue((prev) => {
         return {
@@ -129,22 +128,36 @@ export const NewCreatePost = (props: INewCreatePost) => {
           <Typography
             sx={{
               margin: "0 2rem",
-              color: inputValue?.body?.length >= 360 - 5 ? "red" : "inherit",
+              color: `${
+                inputValue.body && inputValue?.body?.length >= 360 - 5
+                  ? "red"
+                  : "inherit"
+              }`,
             }}
             variant="caption"
           >
             {inputValue?.body?.length}/360 characters
           </Typography>
           {updatePost ? (
-            <LoadingButton
-              variant="contained"
-              onClick={async () => {
-                await dispatch(updateUserPost(inputValue));
-                setUpdatePost(false);
-              }}
-            >
-              Update
-            </LoadingButton>
+            <Box>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setUpdatePost && setUpdatePost(false);
+                }}
+              >
+                cancel
+              </Button>
+              <LoadingButton
+                variant="contained"
+                onClick={async () => {
+                  await dispatch(updateUserPost(inputValue));
+                  setUpdatePost && setUpdatePost(false);
+                }}
+              >
+                Update
+              </LoadingButton>
+            </Box>
           ) : (
             <LoadingButton
               loading={createPostStatus === "pending"}
