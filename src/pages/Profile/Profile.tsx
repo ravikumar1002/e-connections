@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { Box, Tabs, Tab, TextField } from "@mui/material";
 import { PersonalDetails } from "./PersonalDetails";
 import UserPost from "@components/Posts/Post";
-import { getUserPostsThunk } from "@thunk/postThunk";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { IUserPost } from "@dto/posts";
 import { useAppDispatch } from "@hooks/useAppDispatch";
@@ -39,7 +38,6 @@ const Profile = () => {
 
   useEffect(() => {
     useDocumentTitle("Profile");
-    dispatch(getUserPostsThunk());
     setUserCreatedPost(createdPosts);
   }, []);
 

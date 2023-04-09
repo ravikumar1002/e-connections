@@ -15,18 +15,6 @@ export const getPostsThunk = createAsyncThunk(
 );
 
 
-export const getUserPostsThunk = createAsyncThunk(
-    "/appData/getUserPosts", async (_, { rejectWithValue }) => {
-        try {
-            const response = await GetAxiosDataAsJSON<IUserPost[]>("users/2/posts");
-            return response
-        } catch (error: any) {
-            console.log(error);
-            return rejectWithValue(error);
-        }
-    }
-);
-
 export const createPostsThunk = createAsyncThunk(
     "/appData/createUserPost", async (postData: object, { rejectWithValue }) => {
         try {

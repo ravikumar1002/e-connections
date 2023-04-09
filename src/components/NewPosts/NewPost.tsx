@@ -4,7 +4,7 @@ import { Avatar, Button, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { blue } from "@mui/material/colors";
-import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
+import { createPostsThunk } from "@thunk/postThunk";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { LoadingButton } from "@mui/lab";
 import { updateUserPost } from "@slice/authSlice";
@@ -160,7 +160,6 @@ export const NewCreatePost = (props: INewCreatePost) => {
               variant="contained"
               onClick={async () => {
                 await dispatch(createPostsThunk(inputValue));
-                await dispatch(getUserPostsThunk());
                 setInputValue({ title: "", body: "", userId: 11 });
               }}
             >
