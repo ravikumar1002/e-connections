@@ -92,8 +92,11 @@ export const NewCreatePost = (props: INewCreatePost) => {
       >
         <div style={{ display: "flex", width: "100%" }}>
           <Item>
-            <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-              {authUserData?.name.charAt(0).toUpperCase()}
+            <Avatar
+              sx={{ bgcolor: blue[500] }}
+              aria-label={authUserData?.name?.charAt(0)?.toUpperCase()}
+            >
+              {authUserData?.name?.charAt(0)?.toUpperCase()}
             </Avatar>
           </Item>
           <Item sx={{ flexGrow: 1 }}>

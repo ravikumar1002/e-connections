@@ -108,7 +108,7 @@ const UserPost = (props: IuserPost) => {
             avatar={
               <Avatar
                 sx={{ bgcolor: red[500] }}
-                aria-label={authUserData?.name.charAt(0)?.toUpperCase()}
+                aria-label={authUserData?.name?.charAt(0)?.toUpperCase()}
               >
                 {userDetails?.name?.charAt(0)}
               </Avatar>
