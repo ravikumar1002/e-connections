@@ -6,6 +6,7 @@ import {
   Box,
   Menu,
   IconButton,
+  Divider,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { deleteComment, editCommentInState } from "@slice/appSlice";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { blue } from "@mui/material/colors";
 
 export const PostAllComments = (props: any) => {
   const [editComment, setEditComment] = useState(false);
@@ -38,7 +40,12 @@ export const PostAllComments = (props: any) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: "0.5rem",
+      }}
+    >
+      <Divider />
       <div
         style={{
           display: "flex",
@@ -48,11 +55,14 @@ export const PostAllComments = (props: any) => {
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
-          <ListItemAvatar>
-            <Avatar alt={comment.id} />
-          </ListItemAvatar>
+          <Avatar
+            sx={{ bgcolor: blue[500], marginRight: "1.5rem" }}
+            aria-label={comment?.name?.charAt(0)?.toUpperCase()}
+          >
+            {comment?.name?.charAt(0)?.toUpperCase()}
+          </Avatar>
           <ListItemText
-            primary={comment.name}
+            primary={comment?.name}
             secondary={
               <>
                 <Typography
@@ -67,9 +77,11 @@ export const PostAllComments = (props: any) => {
             }
           />
         </div>
-        <IconButton onClick={(e) => setMenuAnchorComments(e.currentTarget)}>
-          <MoreVertIcon />
-        </IconButton>
+        {comment.email === authUser.email && (
+          <IconButton onClick={(e) => setMenuAnchorComments(e.currentTarget)}>
+            <MoreVertIcon />
+          </IconButton>
+        )}
         {comment.email === authUser.email && (
           <Menu
             open={!!menuAnchorComments}

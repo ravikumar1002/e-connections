@@ -9,7 +9,7 @@ import Profile from "@pages/Profile/Profile";
 import Signup from "@pages/Signup/Signup";
 import ProtectedRoutes from "@routes/ProtectedRoutes";
 import { addUserData } from "@slice/authSlice";
-import { getPostsThunk } from "@thunk/postThunk";
+import { getAllPostsCommentsThunk, getPostsThunk } from "@thunk/postThunk";
 import { getUsersThunk } from "@thunk/userThunk";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -54,9 +54,9 @@ const App = () => {
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.count("-x-x-x- test");
         dispatch(getUsersThunk());
         dispatch(getPostsThunk());
+        dispatch(getAllPostsCommentsThunk());
         dispatch(addUserData(user?.providerData[0]));
         dispatch(getUserDataThunk(user?.providerData[0].uid));
       }

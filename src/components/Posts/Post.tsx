@@ -91,7 +91,7 @@ const UserPost = (props: IuserPost) => {
   const isThisPostLiked = likedPost.includes(id);
 
   return (
-    <Card sx={{ maxWidth: 800, height: 400 }}>
+    <Card sx={{ maxWidth: 800 }}>
       {editPost ? (
         <NewCreatePost
           setUpdatePost={setEditPost}
@@ -114,11 +114,11 @@ const UserPost = (props: IuserPost) => {
               </Avatar>
             }
             action={
-              userDetails.id === 11 ? (
+              userDetails.id === 11 && (
                 <IconButton onClick={(e) => setMenuAnchor(e.currentTarget)}>
                   <MoreVertIcon />
                 </IconButton>
-              ) : null
+              )
             }
             title={userDetails?.name}
             subheader="September 14, 2016"
@@ -131,7 +131,12 @@ const UserPost = (props: IuserPost) => {
               {body}
             </Typography>
           </CardContent>
-          <CardActions disableSpacing>
+          <CardActions
+            disableSpacing
+            sx={{
+              justifyContent: "space-between",
+            }}
+          >
             <IconButton
               aria-label="add to favorites"
               sx={{
@@ -147,26 +152,41 @@ const UserPost = (props: IuserPost) => {
             >
               <FavoriteIcon />
             </IconButton>
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
+            <div>
+              <Typography
+                variant="button"
+                onClick={handleExpandClick}
+                sx={{ cursor: "pointer", fontSize: "0.7rem" }}
+              >
+                See all comments
+              </Typography>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more comments"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+            </div>
           </CardActions>
           <CrateComments postID={id} />
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent
               sx={{
                 maxHeight: "300px",
-                overflow: "scroll",
+                overflowY: "scroll",
               }}
             >
-              {commentsOnSinglePost.map((comment) => {
-                return <PostAllComments comment={comment} key={comment.id} />;
-              })}
+              {commentsOnSinglePost.length > 0 ? (
+                commentsOnSinglePost.map((comment) => {
+                  return <PostAllComments comment={comment} key={comment.id} />;
+                })
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  No Comments yet
+                </Typography>
+              )}
             </CardContent>
           </Collapse>
         </>
