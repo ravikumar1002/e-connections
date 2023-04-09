@@ -43,7 +43,7 @@ const useSignup = () => {
         await dispatch(signupThunk(data));
         if (authUser) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
-        } {
+        } else{
             alert("Alrady have account")
         }
     };

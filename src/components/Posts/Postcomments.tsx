@@ -7,6 +7,8 @@ import {
   Menu,
   IconButton,
   Divider,
+  TextField,
+  Button,
 } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useRef, useState } from "react";
@@ -115,15 +117,23 @@ export const PostAllComments = (props: any) => {
       </div>
       <div>
         {editComment ? (
-          <div>
-            <input
-              type="text"
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap:"1rem",
+            }}
+          >
+            <TextField
+              id="outlined-basic"
               value={editCommentPara?.body}
+              variant="outlined"
               onChange={(e) => {
                 CommentEvent(e.target.value);
               }}
+              sx={{ flexGrow: 1 }}
             />
-            <button
+            <Button
               onClick={() => {
                 dispatch(
                   editCommentInState({
@@ -138,8 +148,8 @@ export const PostAllComments = (props: any) => {
               }}
             >
               Edit
-            </button>
-          </div>
+            </Button>
+          </Box>
         ) : (
           <Typography component="p" variant="body2" color="text.primary">
             {comment?.body}

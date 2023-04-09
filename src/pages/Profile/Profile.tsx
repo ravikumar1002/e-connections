@@ -188,7 +188,12 @@ const Profile = () => {
             });
           }}
         />
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <Button
             onClick={async () => {
               setUserInformations({ ...authUserData });

@@ -38,10 +38,11 @@ const useLogin = () => {
     ) => {
         e?.preventDefault();
         await dispatch(loginThunk(data));
+
         if (authUser) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
-        } {
-            alert("Alrady have account")
+        }else {
+            alert("Account does't exists! please signup")
         }
     };
 

@@ -179,7 +179,7 @@ const UserPost = (props: IuserPost) => {
               }}
             >
               {commentsOnSinglePost.length > 0 ? (
-                commentsOnSinglePost.map((comment) => {
+                commentsOnSinglePost.reverse().map((comment) => {
                   return <PostAllComments comment={comment} key={comment.id} />;
                 })
               ) : (

@@ -8,6 +8,7 @@ import useLogin from "@hooks/useLogin";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
+import { loginThunk } from "@thunk/authThunk";
 
 export const LinkItem = styled(Link)`
   text-decoration: none;
@@ -102,7 +103,7 @@ const Login = () => {
                 />
               </Grid>
             </Grid>
-            <Grid mt={4} container justifyContent="center">
+            <Grid mt={4} container justifyContent="center" gap={"1rem"}>
               <LoadingButton
                 loading={authStatus === "pending"}
                 sx={{ width: { sm: "100%", md: "50%" } }}
@@ -110,6 +111,24 @@ const Login = () => {
                 type="submit"
               >
                 Login
+              </LoadingButton>
+              <LoadingButton
+                loading={authStatus === "pending"}
+                sx={{ width: { sm: "100%", md: "50%" } }}
+                variant="contained"
+                onClick={async () => {
+                  await dispatch(
+                    loginThunk({
+                      email: "ravikumar@gmail.com",
+                      password: "test@user",
+                    })
+                  );
+                  navigate(location?.state?.from?.pathname || "/home", {
+                    replace: true,
+                  });
+                }}
+              >
+                Use random account
               </LoadingButton>
             </Grid>
           </Box>

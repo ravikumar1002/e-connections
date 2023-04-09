@@ -15,7 +15,7 @@ export interface IAuthUser {
 
 export interface IAuthUserData {
   username: string;
-  phone: string | null;
+  phone: string;
   website: string;
   bio: string;
   name: string;
@@ -45,7 +45,7 @@ const initialState: IAuthState = {
   },
   authUserData: {
     username: "",
-    phone: null,
+    phone: "",
     website: "",
     bio: "",
     name: "",
@@ -83,7 +83,7 @@ const authSlice = createSlice({
       }
       state.authUserData = {
         username: "",
-        phone: null,
+        phone: "",
         website: "",
         bio: "",
         name: "",
