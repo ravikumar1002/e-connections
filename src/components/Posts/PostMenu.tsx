@@ -13,7 +13,7 @@ interface IPostMenu {
   children: React.ReactNode;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  anchorRef: React.useRef<HTMLButtonElement | null>;
+  anchorRef: React.MutableRefObject<HTMLButtonElement | null>;
 }
 
 export const PostMenu = (props: IPostMenu) => {
@@ -23,13 +23,13 @@ export const PostMenu = (props: IPostMenu) => {
   };
 
   const handleAwayClose = (event: MouseEvent | TouchEvent) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorRef.current && anchorRef.current.contains(event.currentTarget)) {
       return;
     }
     setOpen(false);
   };
 
-  const handleListKeyDown = (event) => {
+  const handleListKeyDown = (event: React.KeyboardEvent<HTMLUListElement>) => {
     if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
