@@ -7,7 +7,6 @@ interface IProfileImageProps {
 
 export const ProfileImage = (props: IProfileImageProps) => {
   const { dp, dpAlt } = props;
-  console.log(dp);
   return (
     <div>
       <Avatar

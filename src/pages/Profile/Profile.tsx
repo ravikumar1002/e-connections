@@ -15,6 +15,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "App";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { getUserDataThunk } from "@thunk/userDataThunk";
 
 const Profile = () => {
   const [value, setValue] = useState(0);
@@ -45,9 +46,15 @@ const Profile = () => {
   useEffect(() => {
     setUserCreatedPost([...createdPosts].reverse());
     setUserInformations({ ...authUserData });
+  }, []);
+
+  useEffect(() => {
+    setUserCreatedPost([...createdPosts].reverse());
+    setUserInformations({ ...authUserData });
   }, [createdPosts, authUser, authUserData, auth]);
 
   const updateUserData = async (data: Partial<IAuthUserData>) => {
+    console.log(data);
     await updateDoc(
       doc(
         db,
@@ -56,6 +63,7 @@ const Profile = () => {
       ),
       { ...data }
     );
+    await dispatch(getUserDataThunk(auth?.currentUser?.providerData[0].uid));
   };
 
   return (
@@ -96,7 +104,7 @@ const Profile = () => {
                   email: authUser.email,
                   id: 11,
                   name: authUserData.name,
-                  phone: authUserData.phoneNumber ?? "",
+                  phone: authUserData.phone ?? "",
                   username: authUserData.username,
                   website: authUserData.website,
                 }}
@@ -116,7 +124,7 @@ const Profile = () => {
           label="User Name"
           defaultValue={userInformations?.username}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 username: e.target?.value,
@@ -142,12 +150,12 @@ const Profile = () => {
           required
           inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
           label="Phone Number"
-          defaultValue={userInformations?.phoneNumber}
+          defaultValue={userInformations?.phone}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
-                phoneNumber: e.target?.value,
+                phone: e.target?.value,
               };
             });
           }}
@@ -157,7 +165,7 @@ const Profile = () => {
           label="website"
           defaultValue={userInformations?.website}
           onChange={(e) => {
-            setUpdateData((data) => {
+            setUserInformations((data) => {
               return {
                 ...data,
                 website: e.target?.value,
@@ -184,7 +192,6 @@ const Profile = () => {
           <Button
             onClick={async () => {
               setUserInformations({ ...authUserData });
-              // setUpdateData({});
               dispatch(changeProfileModalState(false));
             }}
           >
@@ -192,7 +199,7 @@ const Profile = () => {
           </Button>
           <Button
             onClick={async () => {
-              await updateUserData(updateData);
+              await updateUserData(userInformations);
               dispatch(changeProfileModalState(false));
             }}
           >

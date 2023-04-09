@@ -15,7 +15,7 @@ export interface IAuthUser {
 
 export interface IAuthUserData {
   username: string;
-  phoneNumber: string | null;
+  phone: string | null;
   website: string;
   bio: string;
   name: string;
@@ -45,7 +45,7 @@ const initialState: IAuthState = {
   },
   authUserData: {
     username: "",
-    phoneNumber: null,
+    phone: null,
     website: "",
     bio: "",
     name: "",
