@@ -7,18 +7,14 @@ import { PersonalDetails } from "./PersonalDetails";
 import UserPost from "@components/Posts/Post";
 import { getUserPostsThunk } from "@thunk/postThunk";
 import { useAppSelector } from "@hooks/useAppSelector";
-import { IUserPosts } from "@dto/posts";
+import { IUserPost } from "@dto/posts";
 import { useAppDispatch } from "@hooks/useAppDispatch";
 import { ModalBox } from "@components/Modal/Modal";
 import { changeProfileModalState } from "@slice/appSlice";
 import { getAuth } from "firebase/auth";
-import { IUserData } from "@dto/user_data";
-import { IAuthUser, IAuthUserData } from "@slice/authSlice";
-import { useFirebaseStoreDataUpdate } from "@hooks/useFirebaseStoreData";
+import { IAuthUserData } from "@slice/authSlice";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "App";
-
-type IUpdateUserData = {};
 
 const Profile = () => {
   const [value, setValue] = useState(0);
@@ -27,15 +23,15 @@ const Profile = () => {
   );
 
   const [userInformations, setUserInformations] = useState<IAuthUserData>({
-    ...authUser,
+    ...authUserData,
   });
 
-  const [updateData, setUpdateData] = useState<IUpdateUserData>();
+  const [updateData, setUpdateData] = useState<Partial<IAuthUserData>>({});
   const { profileModalOpen } = useAppSelector((state) => state.appData);
   const auth = getAuth();
   const dispatch = useAppDispatch();
 
-  const [userCreatedPost, setUserCreatedPost] = useState<IUserPosts | []>([]);
+  const [userCreatedPost, setUserCreatedPost] = useState<IUserPost[]>([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -52,11 +48,11 @@ const Profile = () => {
     setUserInformations({ ...authUserData });
   }, [createdPosts, authUser, authUserData, auth]);
 
-  const updateUserData = async (data) => {
+  const updateUserData = async (data: Partial<IAuthUserData>) => {
     await updateDoc(
       doc(
         db,
-        `${auth?.currentUser.providerData[0].uid}`,
+        `${auth?.currentUser?.providerData[0].uid}`,
         "Personal-informations"
       ),
       { ...data }
@@ -90,7 +86,20 @@ const Profile = () => {
         {value === 0 &&
           userCreatedPost &&
           userCreatedPost.map((post) => {
-            return <UserPost postData={post} key={post.id} />;
+            return (
+              <UserPost
+                userInfo={{
+                  email: authUser.email,
+                  id: 11,
+                  name: authUserData.name,
+                  phone: authUserData.phoneNumber ?? "",
+                  username: authUserData.username,
+                  website: authUserData.website,
+                }}
+                postData={post}
+                key={post.id}
+              />
+            );
           })}
       </Box>
       <ModalBox>
@@ -98,12 +107,12 @@ const Profile = () => {
           required
           id="outlined-required"
           label="User Name"
-          defaultValue={userInformations?.userName}
+          defaultValue={userInformations?.username}
           onChange={(e) => {
             setUpdateData((data) => {
               return {
                 ...data,
-                userName: e.target?.value,
+                username: e.target?.value,
               };
             });
           }}

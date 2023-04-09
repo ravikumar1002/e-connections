@@ -1,16 +1,12 @@
 import { NewCreatePost } from "@components/NewPosts/NewPost";
 import UserPost from "@components/Posts/Post";
-import { useAppDispatch } from "@hooks/useAppDispatch";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
-import { logoutUserProfile } from "@slice/authSlice";
-import { getAuth, signOut } from "firebase/auth";
 import { useEffect } from "react";
 
 const Home = () => {
-  const dispatch = useAppDispatch();
-  const auth = getAuth();
-  const { posts, getPostsStatus } = useAppSelector((state) => state.appData);
+  const { posts, getPostsStatus, indexedUsers, getUsersStatus } =
+    useAppSelector((state) => state.appData);
 
   useEffect(() => {
     useDocumentTitle("Home");
@@ -23,7 +19,7 @@ const Home = () => {
           margin: "1rem 0 1rem 0",
         }}
       >
-        <NewCreatePost updatePost={false} />
+        <NewCreatePost />
       </div>
       <div
         style={{
@@ -33,8 +29,15 @@ const Home = () => {
         }}
       >
         {getPostsStatus === "fulfilled" &&
+          getUsersStatus === "fulfilled" &&
           posts.map((post) => {
-            return <UserPost postData={post} key={post.id} />;
+            return (
+              <UserPost
+                userInfo={indexedUsers[post.userId]}
+                postData={post}
+                key={post.id}
+              />
+            );
           })}
       </div>
     </div>

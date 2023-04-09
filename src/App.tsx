@@ -9,13 +9,12 @@ import Profile from "@pages/Profile/Profile";
 import Signup from "@pages/Signup/Signup";
 import ProtectedRoutes from "@routes/ProtectedRoutes";
 import { addUserData } from "@slice/authSlice";
-import { getAllPostsCommentsThunk, getPostsThunk } from "@thunk/postThunk";
+import { getPostsThunk } from "@thunk/postThunk";
 import { getUsersThunk } from "@thunk/userThunk";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 import {
   createBrowserRouter,
@@ -55,6 +54,9 @@ const App = () => {
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.count("-x-x-x- test");
+        dispatch(getUsersThunk());
+        dispatch(getPostsThunk());
         dispatch(addUserData(user?.providerData[0]));
         dispatch(getUserDataThunk(user?.providerData[0].uid));
       }
@@ -62,14 +64,8 @@ const App = () => {
     return () => AuthCheck();
   }, [auth]);
 
-  useEffect(() => {
-    dispatch(getUsersThunk());
-    dispatch(getPostsThunk());
-    dispatch(getAllPostsCommentsThunk());
-  }, []);
-
   return (
-    <div className="App">
+    <div>
       <RouterProvider router={router} />
     </div>
   );

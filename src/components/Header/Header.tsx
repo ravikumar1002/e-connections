@@ -62,7 +62,9 @@ const Header = (props: IHeaderProps) => {
                     localStorage.clear();
                     dispatch(logoutUserProfile());
                   })
-                  .catch((error) => {});
+                  .catch((error) => {
+                    console.error(error)
+                  });
               }}
             >
               Logout

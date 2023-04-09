@@ -16,7 +16,7 @@ export const signupThunk = createAsyncThunk(
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, `${response.user?.providerData[0].uid}`, "Personal-informations"), {
-        userName: "ABcde",
+        username: "ABcde",
         phoneNumber: 36363636636,
         website: "asdsdbjabhdjsa.com",
         bio: "luyfgausdgfadfasduifgasdufysadgfasdybdf dsdifasgd fsdiafyaifavsdbilf 9fuhoa0eaidfcbasiuvdg ppqe9ofgcoreddasgufagdifagfdg fausdfgas",

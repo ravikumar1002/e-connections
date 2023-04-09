@@ -1,16 +1,13 @@
 
-export type IPosts = Ipost[]
 
-export interface Ipost {
+export interface IPost {
     userId: number;
     id: number;
     name: string;
+    title: string;
     body: string;
     email: string;
 }
-
-
-export type IComments = IComment[]
 
 export interface IComment {
     postId: number;
@@ -20,12 +17,12 @@ export interface IComment {
     body: string;
 }
 
-
-export type IUserPosts = IuserPost[]
-
-export interface IuserPost {
-    userId: number;
+export interface IUserPost {
+    userId: number
     id: number;
     title: string;
     body: string;
 }
+
+
+export type CreateNewPostData = Omit<IPost, 'id'|'email' | 'name'>
