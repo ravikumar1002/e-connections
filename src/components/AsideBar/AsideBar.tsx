@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   Box,
   List,
@@ -11,10 +10,8 @@ import {
   useTheme,
   drawerClasses,
 } from "@mui/material";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "./asidebar.css";
-import { useAppDispatch } from "@hooks/useAppDispatch";
 import { navigationLinks } from "./navigationsLinks";
 interface ISideNavDrawerProps {
   open: boolean;
@@ -23,12 +20,24 @@ interface ISideNavDrawerProps {
 
 export const AsidebarNav = (props: ISideNavDrawerProps) => {
   const { open, setOpen } = props;
-  const auth = getAuth();
   const location = useLocation();
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
   const theme = useTheme();
+
+  const activeStyle = {
+    color: "black",
+    background: "#808085",
+    textDecoration: "none",
+    display: "block",
+  };
+
+  const inactiveStyle = {
+    color: "black",
+    textDecoration: "none",
+    display: "block",
+  };
+
+  const getActiveStyle = ({ isActive }: { isActive: Boolean }) =>
+    isActive ? activeStyle : inactiveStyle;
 
   return (
     <Box>
@@ -57,7 +66,7 @@ export const AsidebarNav = (props: ISideNavDrawerProps) => {
             return (
               <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
                 <NavLink
-                //   style={getActiveStyle}
+                  style={getActiveStyle}
                   to={item.path}
                   title={item.title}
                 >

@@ -9,7 +9,7 @@ import Profile from "@pages/Profile/Profile";
 import Signup from "@pages/Signup/Signup";
 import ProtectedRoutes from "@routes/ProtectedRoutes";
 import { addUserData } from "@slice/authSlice";
-import { getPostsThunk } from "@thunk/postThunk";
+import { getAllPostsCommentsThunk, getPostsThunk } from "@thunk/postThunk";
 import { getUsersThunk } from "@thunk/userThunk";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -65,6 +65,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getUsersThunk());
     dispatch(getPostsThunk());
+    dispatch(getAllPostsCommentsThunk());
   }, []);
 
   return (

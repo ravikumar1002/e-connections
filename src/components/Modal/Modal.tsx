@@ -25,7 +25,7 @@ interface IModalProps {
 }
 
 export const ModalBox = (props: IModalProps) => {
-  const { open, setOpen, children } = props;
+  const { children } = props;
   const { profileModalOpen } = useAppSelector((state) => state.appData);
   const dispatch = useAppDispatch();
 

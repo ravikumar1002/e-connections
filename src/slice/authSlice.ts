@@ -1,32 +1,37 @@
 import { IUserPosts } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
-import { getUserPostsThunk } from "@thunk/postThunk";
+import { createPostsThunk, getUserPostsThunk } from "@thunk/postThunk";
 import { getUserDataThunk } from "@thunk/userDataThunk";
+import { number } from "zod";
 export interface IAuthUser {
-  providerId: string,
-  uid: string,
-  displayName: null,
-  email: string,
-  phoneNumber: null,
-  photoURL: null,
+  providerId: string;
+  uid: string;
+  displayName: null;
+  email: string;
+  phoneNumber: null;
+  photoURL: null;
 }
 
 export interface IAuthUserData {
-  userName: string,
-  phoneNumber: number | null,
-  website: string,
-  bio: string,
-  name: string,
+  userName: string;
+  phoneNumber: number | null;
+  website: string;
+  bio: string;
+  name: string;
 }
 
+
 interface IAuthState {
-  authUser: IAuthUser,
-  authUserData: IAuthUserData,
-  posts: IUserPosts,
-  postStatus: string,
-  authStatus: string,
-  authError: string | null,
+  authUser: IAuthUser;
+  authUserData: IAuthUserData;
+  posts: IUserPosts;
+  likedPost: number[];
+  createdPosts: IUserPosts;
+  postStatus: string;
+  createPostStatus: string;
+  authStatus: string;
+  authError: string | null;
 }
 
 const initialState: IAuthState = {
@@ -46,7 +51,10 @@ const initialState: IAuthState = {
     name: "",
   },
   posts: [],
+  createdPosts: [],
+  likedPost: [],
   postStatus: "idle",
+  createPostStatus: "idle",
   authStatus: "idle",
   authError: null,
 };
@@ -55,10 +63,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    addUserData: (state: IAuthState, action: { payload: IAuthUser }) => {
+    addUserData: (state, action) => {
       state.authUser = action.payload
     },
-    logoutUserProfile: (state: IAuthState) => {
+    likeUserPostHandler: (state, action) => {
+      state.likedPost = [...state.likedPost, action.payload]
+    },
+    removedFromLiked: (state, action) => {
+      state.likedPost = state.likedPost.filter(post => post !== action.payload)
+    },
+    logoutUserProfile: (state) => {
       state.authUser = {
         providerId: "",
         uid: "",
@@ -67,7 +81,18 @@ const authSlice = createSlice({
         phoneNumber: null,
         photoURL: null,
       }
+    },
+    updateUserPost: (state, action) => {
+      console.log(action.payload, state.posts)
+      const editPost = state.createdPosts.map(post => post.id === action.payload.id ? action.payload : post)
+      console.log(editPost, "--------edit post")
+      state.createdPosts = editPost
+    },
+    deleteUserPost: (state, action) => {
+      const filterPostAfterDelete = state.createdPosts.filter(post => post.id !== action.payload)
+      state.createdPosts = filterPostAfterDelete
     }
+
   },
   extraReducers: (builder) => {
     builder
@@ -93,32 +118,30 @@ const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state: IAuthState) => {
         state.authStatus = "rejected";
       })
-      .addCase(getUserPostsThunk.pending, (state: IAuthState) => {
-        state.postStatus = "pending";
-      })
-      .addCase(getUserPostsThunk.fulfilled, (state: IAuthState, action: { payload: IUserPosts }) => {
-        state.postStatus = "fulfilled";
-        state.posts = <IUserPosts>action.payload;
-
-      })
-      .addCase(getUserPostsThunk.rejected, (state: IAuthState,) => {
-        state.postStatus = "rejected";
-      })
       .addCase(getUserDataThunk.pending, (state: IAuthState) => {
         state.postStatus = "pending";
       })
-      .addCase(getUserDataThunk.fulfilled, (state: IAuthState, action) => {
+      .addCase(getUserDataThunk.fulfilled, (state, action) => {
         state.postStatus = "fulfilled";
         state.authUserData = action.payload;
-        console.log(action.payload, "action payload")
       })
       .addCase(getUserDataThunk.rejected, (state: IAuthState,) => {
         state.postStatus = "rejected";
+      })
+      .addCase(createPostsThunk.pending, (state, action) => {
+        state.createPostStatus = "pending";
+      })
+      .addCase(createPostsThunk.fulfilled, (state, action) => {
+        state.createPostStatus = "fulfilled";
+        state.createdPosts = [...state.createdPosts, { ...action.payload, id: state.posts.length + 101 }];;
+      })
+      .addCase(createPostsThunk.rejected, (state, action) => {
+        state.createPostStatus = "rejected";
       })
   },
 
 });
 
-export const { addUserData, logoutUserProfile } = authSlice.actions
+export const { addUserData, logoutUserProfile, likeUserPostHandler, removedFromLiked, updateUserPost, deleteUserPost } = authSlice.actions
 
 export const authReducer = authSlice.reducer;

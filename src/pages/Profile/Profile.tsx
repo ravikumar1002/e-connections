@@ -22,7 +22,7 @@ type IUpdateUserData = {};
 
 const Profile = () => {
   const [value, setValue] = useState(0);
-  const { posts, authUser, authUserData } = useAppSelector(
+  const { createdPosts, authUser, authUserData } = useAppSelector(
     (state) => state.user
   );
 
@@ -44,22 +44,22 @@ const Profile = () => {
   useEffect(() => {
     useDocumentTitle("Profile");
     dispatch(getUserPostsThunk());
-    setUserCreatedPost(posts);
+    setUserCreatedPost(createdPosts);
   }, []);
 
   useEffect(() => {
-    setUserCreatedPost(posts);
+    setUserCreatedPost([...createdPosts].reverse());
     setUserInformations({ ...authUserData });
-  }, [posts, authUser, authUserData, auth]);
+  }, [createdPosts, authUser, authUserData, auth]);
 
   const updateUserData = async (data) => {
-    console.log(data)
     await updateDoc(
       doc(
         db,
         `${auth?.currentUser.providerData[0].uid}`,
         "Personal-informations"
-      ),{...data}
+      ),
+      { ...data }
     );
   };
 
@@ -80,7 +80,13 @@ const Profile = () => {
         </Tabs>
       </Box>
       <Box>{value === 1 && <PersonalDetails />}</Box>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "2rem",
+        }}
+      >
         {value === 0 &&
           userCreatedPost &&
           userCreatedPost.map((post) => {
@@ -161,7 +167,6 @@ const Profile = () => {
         />
         <button
           onClick={async () => {
-            console.log(updateData, "userInformations")
             await updateUserData(updateData);
             dispatch(changeProfileModalState(false));
           }}
