@@ -25,4 +25,4 @@ export interface IUserPost {
 }
 
 
-export type CreateNewPostData = Omit<IPost, 'id'|'email' | 'name'>
+export type CreateNewPostData = Omit<IPost, 'id' | 'email' | 'name'> & { id?: number }
