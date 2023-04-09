@@ -64,7 +64,7 @@ const UserPost = (props: IuserPost) => {
   const dispatch = useAppDispatch();
 
   const { users, comments } = useAppSelector((state) => state.appData);
-  const { likedPost } = useAppSelector((state) => state.user);
+  const { likedPost, authUserData } = useAppSelector((state) => state.user);
 
   const [expanded, setExpanded] = useState(false);
   const [commentsOnSinglePost, setCommentsOnSinglePost] = useState<IComment[]>(
@@ -106,8 +106,11 @@ const UserPost = (props: IuserPost) => {
         <>
           <CardHeader
             avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                {userDetails?.name.charAt(0)}
+              <Avatar
+                sx={{ bgcolor: red[500] }}
+                aria-label={authUserData?.name.charAt(0)?.toUpperCase()}
+              >
+                {userDetails?.name?.charAt(0)}
               </Avatar>
             }
             action={
