@@ -36,13 +36,12 @@ const useLogin = () => {
         data: IUserLogin,
         e: React.BaseSyntheticEvent | undefined
     ) => {
-        try {
-            e?.preventDefault();
-            await dispatch(loginThunk(data));
+        e?.preventDefault();
+        await dispatch(loginThunk(data));
+        if (authUser) {
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
-        } catch (err) {
-            console.error(err)
-            alert("Something went wrong")
+        } {
+            alert("Alrady have account")
         }
     };
 
