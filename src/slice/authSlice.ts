@@ -2,7 +2,7 @@ import { IUserPost } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
 import { createPostsThunk } from "@thunk/postThunk";
-import { getUserDataThunk } from "@thunk/userDataThunk";
+import {  getUserDataThunk } from "@thunk/userDataThunk";
 
 export interface IAuthUser {
   providerId: string;

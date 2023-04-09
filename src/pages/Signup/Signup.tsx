@@ -65,6 +65,38 @@ const Signup = () => {
               <Grid item xs={12}>
                 <Controller
                   control={formUtils.control}
+                  name="name"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      label="Name"
+                      type="text"
+                      fullWidth
+                      error={!!formUtils.errors.name?.message}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  control={formUtils.control}
+                  name="username"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <TextField
+                      error={!!formUtils.errors.username?.message}
+                      label="Username"
+                      type="text"
+                      fullWidth
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  control={formUtils.control}
                   name="email"
                   rules={{ required: true }}
                   render={({ field }) => (

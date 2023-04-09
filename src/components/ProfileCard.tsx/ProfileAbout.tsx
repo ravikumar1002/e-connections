@@ -1,10 +1,14 @@
 import { useAppDispatch } from "@hooks/useAppDispatch";
-import { useAppSelector } from "@hooks/useAppSelector";
 import { Box, Button, Typography } from "@mui/material";
 import { changeProfileModalState } from "@slice/appSlice";
 
-export const ProfileAbout = () => {
-  const { profileModalOpen } = useAppSelector((state) => state.appData);
+interface IProfileAbout {
+  name: string;
+  username: string;
+}
+
+export const ProfileAbout = (props: IProfileAbout) => {
+  const { name, username } = props;
   const dispatch = useAppDispatch();
 
   const handleOpenProfileEditModal = () => {
@@ -20,10 +24,10 @@ export const ProfileAbout = () => {
     >
       <div>
         <Typography textAlign="left" variant="h3" component="h1">
-          Ravi Kumar
+          {name}
         </Typography>
         <Typography textAlign="left" variant="h6" component="h2">
-          @ravikumar
+          @{username}
         </Typography>
       </div>
       <div>

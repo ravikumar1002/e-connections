@@ -1,18 +1,20 @@
 import { Avatar } from "@mui/material";
 
-interface IProfileImageData {
-  dp: string;
-}
-
 interface IProfileImageProps {
-  profileImageData: IProfileImageData;
+  dp?: string;
+  dpAlt?: string;
 }
 
 export const ProfileImage = (props: IProfileImageProps) => {
-  const { dp } = props.profileImageData;
+  const { dp, dpAlt } = props;
+  console.log(dp);
   return (
     <div>
-      <Avatar alt="Remy Sharp" src={dp}  sx={{ width: 96, height: 96 }}/>
+      <Avatar
+        alt={dpAlt?.toUpperCase()}
+        src={dp}
+        sx={{ width: 96, height: 96, fontSize: "1.5rem" }}
+      />
     </div>
   );
 };
