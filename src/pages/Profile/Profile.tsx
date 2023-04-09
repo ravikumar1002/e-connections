@@ -67,9 +67,13 @@ const Profile = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "800px",
+    <Box
+      sx={{
+        width: {
+          sm: "400px",
+          md: "600px",
+          lg: "800px",
+        },
         padding: "3rem",
       }}
     >
@@ -212,7 +216,7 @@ const Profile = () => {
           </Button>
         </Box>
       </ModalBox>
-    </div>
+    </Box>
   );
 };
 

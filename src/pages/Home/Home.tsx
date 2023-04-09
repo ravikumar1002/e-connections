@@ -2,6 +2,7 @@ import { NewCreatePost } from "@components/NewPosts/NewPost";
 import UserPost from "@components/Posts/Post";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { useDocumentTitle } from "@hooks/useDocumentTitle";
+import Box from "@mui/material/Box/Box";
 import { useEffect } from "react";
 
 const Home = () => {
@@ -17,7 +18,15 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: {
+          sm: "400px",
+          md: "600px",
+          lg: "800px",
+        },
+      }}
+    >
       <div
         style={{
           margin: "1rem 0 1rem 0",
@@ -61,7 +70,7 @@ const Home = () => {
             );
           })}
       </div>
-    </div>
+    </Box>
   );
 };
 

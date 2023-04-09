@@ -47,7 +47,13 @@ const Header = (props: IHeaderProps) => {
               onClick={() => {
                 setOpen(!open);
               }}
-              sx={{ mr: 2 }}
+              sx={{
+                mr: 2,
+                display: {
+                  xs: "none",
+                  sm: "inherit",
+                },
+              }}
             >
               <MenuIcon />
             </IconButton>
