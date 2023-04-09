@@ -19,22 +19,26 @@ export const ProfileAbout = (props: IProfileAbout) => {
     <div
       style={{
         display: "flex",
-        justifyContent: "spaceBetween",
+        justifyContent: "space-between",
       }}
     >
-      <div>
-        <Typography textAlign="left" variant="h3" component="h1">
-          {name}
-        </Typography>
-        <Typography textAlign="left" variant="h6" component="h2">
-          @{username}
-        </Typography>
-      </div>
-      <div>
-        <Button variant="contained" onClick={handleOpenProfileEditModal}>
-          Edit
-        </Button>
-      </div>
+      {name && username && (
+        <>
+          <div>
+            <Typography textAlign="left" variant="h3" component="h1">
+              {name}
+            </Typography>
+            <Typography textAlign="left" variant="h6" component="h2">
+              @{username}
+            </Typography>
+          </div>
+          <div>
+            <Button variant="contained" onClick={handleOpenProfileEditModal}>
+              Edit
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

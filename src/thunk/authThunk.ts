@@ -1,3 +1,4 @@
+import { IUserLogin } from "@dto/user_data";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "App";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -35,9 +36,9 @@ export const signupThunk = createAsyncThunk(
 );
 
 export const loginThunk = createAsyncThunk(
-  "/auth/login", async (values: IValuesType, { rejectWithValue }) => {
+  "/auth/login", async (userInfo: IUserLogin, { rejectWithValue }) => {
     const auth = getAuth();
-    const { email, password } = values
+    const { email, password } = userInfo
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       return response.user;

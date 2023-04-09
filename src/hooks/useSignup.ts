@@ -40,16 +40,14 @@ const useSignup = () => {
         e: React.BaseSyntheticEvent | undefined
     ) => {
         e?.preventDefault();
-        await dispatch(signupThunk(data));
 
-        if (authUser?.uid) {
-            // dispatch(createUserDataThunk({userID:authUser?.uid, data:{
-            //     name: data.name,
-            //     username: data.name,
-            // }) }
+        try {
+            e?.preventDefault();
+            await dispatch(signupThunk(data));
             navigate(location?.state?.from?.pathname || "/home", { replace: true });
-        } else {
-            alert("user alrady created")
+        } catch (err) {
+            console.error(err)
+            alert("User alrady created")
         }
     };
 

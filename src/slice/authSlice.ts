@@ -2,7 +2,7 @@ import { IUserPost } from "@dto/posts";
 import { createSlice } from "@reduxjs/toolkit";
 import { loginThunk, signupThunk } from "@thunk/authThunk";
 import { createPostsThunk } from "@thunk/postThunk";
-import {  getUserDataThunk } from "@thunk/userDataThunk";
+import { getUserDataThunk } from "@thunk/userDataThunk";
 
 export interface IAuthUser {
   providerId: string;
@@ -81,6 +81,20 @@ const authSlice = createSlice({
         phoneNumber: null,
         photoURL: null,
       }
+      state.authUserData = {
+        username: "",
+        phone: null,
+        website: "",
+        bio: "",
+        name: "",
+      }
+      state.posts = []
+      state.createdPosts = []
+      state.likedPost = []
+      state.postStatus = "idle"
+      state.createPostStatus = "idle"
+      state.authStatus = "idle"
+      state.authError = null
     },
     updateUserPost: (state, action) => {
       console.log(action.payload, state.posts)

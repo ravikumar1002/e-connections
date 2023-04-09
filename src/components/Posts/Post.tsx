@@ -158,7 +158,7 @@ const UserPost = (props: IuserPost) => {
                 onClick={handleExpandClick}
                 sx={{ cursor: "pointer", fontSize: "0.7rem" }}
               >
-                See all comments
+                See all comments ({commentsOnSinglePost?.length})
               </Typography>
               <ExpandMore
                 expand={expanded}
