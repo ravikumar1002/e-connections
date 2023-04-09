@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Card,
@@ -9,10 +9,12 @@ import {
   Typography,
   MenuItem,
   Menu,
+  Collapse,
 } from "@mui/material";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAppSelector } from "@hooks/useAppSelector";
 import { IUserData } from "@dto/user_data";
 import { useAppDispatch } from "@hooks/useAppDispatch";
@@ -22,7 +24,7 @@ import {
   removedFromLiked,
 } from "@slice/authSlice";
 import { CrateComments } from "./CreateComments";
-import { PostAllomments } from "./Postcomments";
+import { PostAllComments } from "./Postcomments";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IComment } from "@dto/posts";
 import { NewCreatePost } from "@components/NewPosts/NewPost";
@@ -61,14 +63,13 @@ const UserPost = (props: IuserPost) => {
 
   const dispatch = useAppDispatch();
 
-  // const { users, comments } = useAppSelector((state) => state.appData);
-  // const { likedPost } = useAppSelector((state) => state.user);
+  const { users, comments } = useAppSelector((state) => state.appData);
+  const { likedPost } = useAppSelector((state) => state.user);
 
   const [expanded, setExpanded] = useState(false);
   const [commentsOnSinglePost, setCommentsOnSinglePost] = useState<IComment[]>(
     []
   );
-  // const [userDetails, setUserDetails] = useState<IUserData | undefined>();
   const [editPost, setEditPost] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState<HTMLElement | null>(null);
 
@@ -80,24 +81,14 @@ const UserPost = (props: IuserPost) => {
     setMenuAnchor(null);
   };
 
-  // console.count('userDetails===')
-  // console.log('-x-x--x', userDetails)
+  useEffect(() => {
+    const filterCommentsOnPost = comments.filter(
+      (comment) => comment.postId === id
+    );
+    setCommentsOnSinglePost(filterCommentsOnPost);
+  }, [comments]);
 
-  // const findUserDetails = (id: number) => users.find((user) => user.id === id);
-
-  // useEffect(() => {
-  //   const userData = findUserDetails(userId);
-  //   setUserDetails(userData);
-  // }, [users]);
-
-  // useEffect(() => {
-  //   const filterCommentsOnPost = comments.filter(
-  //     (comment) => comment.postId === id
-  //   );
-  //   setCommentsOnSinglePost(filterCommentsOnPost);
-  // }, [comments]);
-
-  // const isThisPostLiked = likedPost.includes(id);
+  const isThisPostLiked = likedPost.includes(id);
 
   return (
     <Card sx={{ maxWidth: 800, height: 400 }}>
@@ -107,6 +98,7 @@ const UserPost = (props: IuserPost) => {
           updateData={{
             title,
             body,
+            id,
             userId: 11,
           }}
         />
@@ -119,7 +111,7 @@ const UserPost = (props: IuserPost) => {
               </Avatar>
             }
             action={
-              true ? (
+              userDetails.id === 11 ? (
                 <IconButton onClick={(e) => setMenuAnchor(e.currentTarget)}>
                   <MoreVertIcon />
                 </IconButton>
@@ -137,7 +129,7 @@ const UserPost = (props: IuserPost) => {
             </Typography>
           </CardContent>
           <CardActions disableSpacing>
-            {/* <IconButton
+            <IconButton
               aria-label="add to favorites"
               sx={{
                 color: isThisPostLiked ? "red" : "unset",
@@ -151,7 +143,7 @@ const UserPost = (props: IuserPost) => {
               }}
             >
               <FavoriteIcon />
-            </IconButton> */}
+            </IconButton>
             <ExpandMore
               expand={expanded}
               onClick={handleExpandClick}
@@ -162,7 +154,7 @@ const UserPost = (props: IuserPost) => {
             </ExpandMore>
           </CardActions>
           <CrateComments postID={id} />
-          {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent
               sx={{
                 maxHeight: "300px",
@@ -170,10 +162,10 @@ const UserPost = (props: IuserPost) => {
               }}
             >
               {commentsOnSinglePost.map((comment) => {
-                return <PostAllomments comment={comment} key={comment.id} />;
+                return <PostAllComments comment={comment} key={comment.id} />;
               })}
             </CardContent>
-          </Collapse> */}
+          </Collapse>
         </>
       )}
       <Menu open={!!menuAnchor} onClose={handleMenuClose} anchorEl={menuAnchor}>

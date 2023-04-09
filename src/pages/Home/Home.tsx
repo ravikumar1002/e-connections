@@ -30,7 +30,7 @@ const Home = () => {
       >
         {getPostsStatus === "fulfilled" &&
           getUsersStatus === "fulfilled" &&
-          posts.map((post) => {
+          posts?.slice(0,10).map((post) => {
             return (
               <UserPost
                 userInfo={indexedUsers[post.userId]}

@@ -2,7 +2,7 @@
 
 export interface IPost {
     userId: number;
-    id: number;
+    id?: number;
     name: string;
     title: string;
     body: string;
@@ -25,4 +25,4 @@ export interface IUserPost {
 }
 
 
-export type CreateNewPostData = Omit<IPost, 'id'|'email' | 'name'>
+export type CreateNewPostData = Omit<IPost, 'email' | 'name'>
